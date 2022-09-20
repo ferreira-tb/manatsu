@@ -1,7 +1,3 @@
-type AcceptableProperty = (string | Element | { [index: string]: string });
-type ConstructorArgs = (AcceptableProperty | null)[];
-type RepeatConstructor = (AcceptableProperty | number | string[] | null)[];
-
 class Manatsu {
     #element: string = 'div';
     #parent: Element | null = null;
@@ -49,7 +45,7 @@ class Manatsu {
 
     #addOptions(item: { [index: string]: string } | null) {
         if (Manatsu.isValidOption(item)) {
-            const oldOptions = { ...this.#options };
+            const oldOptions = this.#options ? { ...this.#options } : { };
             for (const [attribute, content] of Object.entries(item as object)) {
                 Object.defineProperty(oldOptions, attribute, {
                     value: content,
