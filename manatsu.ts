@@ -15,8 +15,6 @@ class Manatsu {
                 switch (key) {
                     case 'text': newElement.textContent = value;
                         break;
-                    case 'html': newElement.innerHTML = value;
-                        break;
                     case 'inner': newElement.innerText = value;
                         break;
     
@@ -29,6 +27,8 @@ class Manatsu {
 
         return newElement;
     };
+
+    // #createBefore() com insertBefore.
 
     #setProperty(value: AcceptableProperty) {
         if (typeof value === 'string') {
@@ -43,16 +43,18 @@ class Manatsu {
         };
     };
 
-    #addOptions(item: { [index: string]: string } | null) {
+    #addOptions(item: { [index: string]: string }, overwrite: boolean = true) {
         if (Manatsu.isValidOption(item)) {
             const oldOptions = this.#options ? { ...this.#options } : { };
             for (const [attribute, content] of Object.entries(item as object)) {
+                if (this.#options && overwrite === false && attribute in this.#options) continue;
                 Object.defineProperty(oldOptions, attribute, {
                     value: content,
                     enumerable: true
                 });
             };
             this.#options = oldOptions;
+            return this;
 
         } else {
             throw new ManatsuError('O item fornecido é inválido.');
@@ -115,23 +117,42 @@ class Manatsu {
         return collection;
     };
 
-    static #duplicate(item: Manatsu, options?: { [index: string]: string }): Manatsu | undefined {
+    static #fromTemplate(item: Manatsu, options?: { [index: string]: string }): Manatsu {
         if (item instanceof Manatsu) {
             const properties: ConstructorArgs = [item.element, item.parent];
             if (options && this.#isValidOption(options)) {
-                return new Manatsu(...properties, options);
+                return new Manatsu(...properties, item.options).addOptions(options, true);
 
             } else {
                 return new Manatsu(...properties, item.options);
             };
 
         } else {
-            throw new ManatsuError('O item não pode ser duplicado.');
+            throw new ManatsuError('O item escolhido é inválido.');
         };
     };
 
-    static #removeChildren(element: Element) {
-        while (element.firstChild) element.removeChild(element.firstChild);
+    static #removeChildren(parentElement: Element) {
+        if (!(parentElement instanceof Element)) throw new ManatsuError('O elemento fornecido é inválido.');
+        while (parentElement.firstChild) parentElement.removeChild(parentElement.firstChild);
+    };
+
+    static #enableChildren(parentElement: Element, selector: string) {
+        if (!(parentElement instanceof Element)) throw new ManatsuError('O elemento fornecido é inválido.');
+        if (typeof selector !== 'string') throw new ManatsuError('O seletor precisa ser uma string.');
+
+        const children = parentElement.querySelectorAll(selector);
+        children.forEach((child: Element) => {
+            if (child.hasAttribute('disabled')) child.removeAttribute('disabled');
+        });
+    };
+
+    static #disableChildren(parentElement: Element, selector: string) {
+        if (!(parentElement instanceof Element)) throw new ManatsuError('O elemento fornecido é inválido.');
+        if (typeof selector !== 'string') throw new ManatsuError('O seletor precisa ser uma string.');
+
+        const children = parentElement.querySelectorAll(selector);
+        children.forEach((child: Element) => child.setAttribute('disabled', ''));
     };
 
     static #isValidElementName(name: string) {
@@ -183,8 +204,11 @@ class Manatsu {
 
     static get repeat() {return this.#repeat};
     static get createAll() {return this.#createAll};
-    static get duplicate() {return this.#duplicate};
+    static get fromTemplate() {return this.#fromTemplate};
+
     static get removeChildren() {return this.#removeChildren};
+    static get enableChildren() {return this.#enableChildren};
+    static get disableChildren() {return this.#disableChildren};
 
     static get isValidOption() {return this.#isValidOption};
     static get isValidElementName() {return this.#isValidElementName};
