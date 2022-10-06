@@ -20,7 +20,7 @@
     },
     
     "files": [
-        "index.d.ts",
+        "mana.d.ts",
         "manatsu.ts"
     ]
 }
