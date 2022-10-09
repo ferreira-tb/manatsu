@@ -100,13 +100,14 @@ const myElement = new Manatsu('span', { class: 'myClass' })
 const anotherElement = Manatsu.fromTemplate(myElement)
 ```
 
-### repeat([amount, element, parent, options])
+### repeat([amount, element, parent, options, create])
 
 - **amount**: number - Quantidade de cópias. Padrão: `1`.
 - **element**: string | string[] - Define o tipo do elemento. Padrão: `div`.
 - **parent**: HTMLElement
 - **options**: Object - Lista com os atributos do elemento.
-- **Returns**: Manatsu[]
+- **create**: boolean - Determina se os objetos devem ou não ser transformados em elementos HTML.
+- **Returns**: Manatsu[] | HTMLElement[]
 
 Cria vários objetos Manatsu a partir dos parâmetros especificados. É possível designar vários tipos diferentes para os elementos, mas apenas um `parent` e um objeto `options`.
 
