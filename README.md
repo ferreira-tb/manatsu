@@ -144,7 +144,7 @@ Remove o atributo `disabled` de todos os filhos do elemento indicado. Caso um se
 ### removeChildren(parent[, selector])
 
 - **parent**: HTMLElement
-- **selector**: string - Seletor CSS identificando quais elementos-filho serão alvo.
+- **selector**: string | string[] - Seletor CSS identificando quais elementos-filho serão alvo.
 
 Remove todos os filhos do elemento indicado. Caso um seletor CSS seja fornecido, remove apenas os filhos que o satisfaçam.
 
