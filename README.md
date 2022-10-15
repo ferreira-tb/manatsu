@@ -8,9 +8,9 @@
     - [Manatsu.prototype.createInside()](#createinsideelement-parent-options)
 
 - Classe: Manatsu
-    - Manatsu.createAll()
-    - Manatsu.fromTemplate()
-    - Manatsu.repeat()
+    - [Manatsu.createAll()](#createallarray)
+    - [Manatsu.fromTemplate()](#fromtemplatereference-options)
+    - [Manatsu.repeat()](#repeatamount-element-parent-options-create)
     
 - Classe: DOM
     - Manatsu.addTextContent()
@@ -94,7 +94,7 @@ myElement.createBefore(referenceNode)
 Cria um elemento a partir do objeto Manatsu e o insere antes do elemento indicado como referência.
 Caso `referenceNode` seja `null`, o método terá o mesmo efeito de [`Manatsu.prototype.create()`](#create).
 
-O método só funcionará caso `parent` tenha sido definido no objeto Manatsu.
+É necessário que `parent` tenha sido definido no objeto Manatsu.
 
 ### createInside([element, parent, options])
 
@@ -111,7 +111,7 @@ myElement = myElement.createInside('p', { id: '#newParent' })
 const newParent = document.querySelector('#newParent')
 console.log(myElement.parentElement === newParent) // true
 ```
-Cria um elemento e o envelopa com outro elemento. Esse outro elemento será criado com base nos argumentos fornecidos ao método,
+Cria um elemento e o envelopa com outro. Esse outro elemento será criado com base nos argumentos fornecidos ao método,
 que são os mesmos normalmente fornecidos ao [construtor](#construtor) da classe.
 
 ## Classe: Manatsu
@@ -144,6 +144,7 @@ Cria um objeto Manatsu a partir de outro já existente ou tendo algum elemento c
 ```javascript
 const myElement = new Manatsu('span', { class: 'myClass' })
 const anotherElement = Manatsu.fromTemplate(myElement)
+console.log(anotherElement.getAttribute('class')) // 'myClass'
 ```
 
 ### repeat([amount, element, parent, options, create])
@@ -158,15 +159,15 @@ const anotherElement = Manatsu.fromTemplate(myElement)
 Cria vários objetos Manatsu a partir dos parâmetros especificados.
 É possível designar vários tipos diferentes para os elementos, mas apenas um `parent` e um objeto `options`.
 
-Caso vários tipos sejam fornecidos, `repeat()` os atribuirá em ordem.
+Caso vários tipos sejam fornecidos, o método os atribuirá em ordem.
 Se a quantidade de cópias desejada for maior que a quantidade de tipos fornecidos,
-`repeat()` fará normalmente a atribuição em ordem para esses fornecidos e atribuirá `div` ao restante.
+a atribuição será feita em ordem para esses quem foram fornecidos e atribuirá `div` ao restante.
 
 ```javascript
 const anotherElement = document.querySelector('#myDiv')
-const elements = ['span', 'p', 'br', 'p', 'br']
+const array = ['span', 'p', 'br', 'p', 'br']
 
-const myElements = Manatsu.repeat(6, elements, anotherElement, { class: 'myClass' })
+const myElements = Manatsu.repeat(6, array, anotherElement, { class: 'myClass' })
 
 console.log(myElements[0].element) // 'span'
 console.log(myElements[1].options) // 'Object { class: 'myClass' }'
