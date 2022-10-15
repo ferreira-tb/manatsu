@@ -31,10 +31,10 @@ new Manatsu([element, parent, options])
 - **options**: Object - Lista com os atributos do elemento.
 
 ```javascript
-const anotherElement = document.querySelector('#myDiv')
+const anotherElement = document.querySelector('#my_div')
 const myElement = new Manatsu('input', anotherElement, {
-    id: 'myInput',
-    class: 'textInput',
+    id: 'my_input',
+    class: 'text_input',
     type: 'text'
 })
 ```
@@ -60,11 +60,11 @@ console.log(myElement.textContent) // 'Olá, Mundo!'
 
 ```javascript
 const myElement = new Manatsu()
-myElement.addOptions({ class: 'myClass' })
-console.log(myElement.options) // 'Object { class: 'myClass' }'
+myElement.addOptions({ class: 'my_class' })
+console.log(myElement.options) // 'Object { class: 'my_class' }'
 
-myElement.addOptions({ id: 'myDiv', class: 'anotherClass' }, false)
-console.log(myElement.options) // 'Object { id: 'myDiv', class: 'myClass' }'
+myElement.addOptions({ id: 'my_div', class: 'another_class' }, false)
+console.log(myElement.options) // 'Object { id: 'my_div', class: 'my_class' }'
 ```
 
 Adiciona novos atributos ao objeto Manatsu.
@@ -85,8 +85,8 @@ Cria um elemento a partir do objeto Manatsu.
 - **Returns**: HTMLElement
 
 ```javascript
-const parent = document.querySelector('#myDiv')
-const referenceNode = document.querySelector('#myParagraph')
+const parent = document.querySelector('#my_div')
+const referenceNode = document.querySelector('#my_paragraph')
 const myElement = new Manatsu('h1', parent, { text: 'Olá, Mundo!' })
 myElement.createBefore(referenceNode)
 ```
@@ -104,11 +104,11 @@ Caso `referenceNode` seja `null`, o método terá o mesmo efeito de [`Manatsu.pr
 - **Returns**: HTMLElement - O objeto Manatsu original, agora como elemento.
 
 ```javascript
-const parent = document.querySelector('#myDiv')
+const parent = document.querySelector('#my_div')
 let myElement = new Manatsu('span', parent, { text: 'Brasil!' })
-myElement = myElement.createInside('p', { id: '#newParent' })
+myElement = myElement.createInside('p', { id: '#new_parent' })
 
-const newParent = document.querySelector('#newParent')
+const newParent = document.querySelector('#new_parent')
 console.log(myElement.parentElement === newParent) // true
 ```
 Cria um elemento e o envelopa com outro. Esse outro elemento será criado com base nos argumentos fornecidos ao método,
@@ -142,9 +142,9 @@ Manatsu.createAll(array)
 Cria um objeto Manatsu a partir de outro já existente ou tendo algum elemento como referência.
 
 ```javascript
-const myElement = new Manatsu('span', { class: 'myClass' })
+const myElement = new Manatsu('span', { class: 'my_class' })
 const anotherElement = Manatsu.fromTemplate(myElement)
-console.log(anotherElement.getAttribute('class')) // 'myClass'
+console.log(anotherElement.getAttribute('class')) // 'my_class'
 ```
 
 ### repeat([amount, element, parent, options, create])
@@ -164,14 +164,14 @@ Se a quantidade de cópias desejada for maior que a quantidade de tipos fornecid
 a atribuição será feita em ordem para esses quem foram fornecidos e atribuirá `div` ao restante.
 
 ```javascript
-const anotherElement = document.querySelector('#myDiv')
+const anotherElement = document.querySelector('#my_div')
 const array = ['span', 'p', 'br', 'p', 'br']
 
-const myElements = Manatsu.repeat(6, array, anotherElement, { class: 'myClass' })
+const myElements = Manatsu.repeat(6, array, anotherElement, { class: 'my_class' })
 
 console.log(myElements[0].element) // 'span'
-console.log(myElements[1].options) // 'Object { class: 'myClass' }'
-console.log(myElements[2].options) // 'Object { class: 'myClass' }'
+console.log(myElements[1].options) // 'Object { class: 'my_class' }'
+console.log(myElements[2].options) // 'Object { class: 'my_class' }'
 console.log(myElements[5].element) // 'div'
 ```
 
@@ -202,11 +202,11 @@ const quotes = [
     'Se assim fosse, em vós seria destruído',
     'o livre-arbítrio, e não seria justo que o homem tivesse',
     'por bem a alegria e por mal a dor.'
-];
+]
 
-const parent = document.querySelector('#myDiv')
-const paragraphs = Manatsu.repeat(6, parent, { class: 'myParagraphs' }, true);
-Manatsu.addTextContent(paragraphs, quotes);
+const parent = document.querySelector('#my_div')
+const paragraphs = Manatsu.repeat(6, parent, { class: 'my_paragraphs' }, true)
+Manatsu.addTextContent(paragraphs, quotes)
 ```
 
 ### createCheckbox(options, create[, parentElement])
@@ -226,7 +226,7 @@ Além disso, qualquer outra propriedade fornecida será ignorada.
 A depender do valor de `create`, o método retornará uma array contendo objetos Manatsu ou elementos.
 
 ```javascript
-const parent = document.querySelector('#myDiv')
+const parent = document.querySelector('#my_div')
 
 const firstOptions = { id: 'first', label: 'Ativar Manatsu' }
 const firstCheckbox = Manatsu.createCheckbox(firstOptions, false, parent)
@@ -236,10 +236,10 @@ const secondCheckbox = Manatsu.createCheckbox(secondOptions, false, parent)
 
 const checkboxes = [...firstCheckbox, ...secondCheckbox]
 
-const button = document.querySelector('#myButton')
+const button = document.querySelector('#my_button')
 button.addEventListener('click', () => {
     if (someCondition) Manatsu.createAll(checkboxes);
-});
+})
 ```
 
 ### disableChildren(parent, recursive[, selector])
@@ -252,8 +252,8 @@ Adiciona o atributo `disabled` a todos os filhos do elemento indicado.
 Caso um seletor CSS seja fornecido, adiciona somente aos filhos que o satisfaçam.
 
 ```javascript
-const parent = document.querySelector('#myDiv')
-Manatsu.disableChildren(parent, true, 'button');
+const parent = document.querySelector('#my_div')
+Manatsu.disableChildren(parent, true, 'button')
 
 const button = parent.querySelector('button')
 console.log(button.hasAttribute('disabled')) // true
@@ -274,13 +274,13 @@ Caso um seletor CSS seja fornecido, remove somente dos filhos que o satisfaçam.
 É comum seu uso em conjunto com [`Manatsu.disableChildren()`](#disablechildrenparent-recursive-selector).
 
 ```javascript
-const parent = document.querySelector('#myDiv')
-Manatsu.disableChildren(parent, true, 'button');
+const parent = document.querySelector('#my_div')
+Manatsu.disableChildren(parent, true, 'button')
 
 const button = parent.querySelector('button')
 console.log(button.hasAttribute('disabled')) // true
 
-Manatsu.enableChildren(parent, true, 'button');
+Manatsu.enableChildren(parent, true, 'button')
 console.log(button.hasAttribute('disabled')) // false
 ```
 
@@ -289,9 +289,21 @@ console.log(button.hasAttribute('disabled')) // false
 - **parent**: HTMLElement
 - **selector**: string | string[] - Seletor CSS identificando quais elementos-filho serão alvo.
 
-Remove todos os filhos do elemento indicado. Caso um seletor CSS seja fornecido, remove apenas os filhos que o satisfaçam.
+Remove todos os filhos do elemento indicado.
+Caso um ou mais seletores CSS sejam fornecidos, remove apenas os filhos que os satisfaçam.
 
 ```javascript
-const myElement = document.querySelector('#myDiv');
-Manatsu.removeChildren(myElement);
+const myElement = document.querySelector('#my_div')
+
+const title = document.createElement('h1')
+title.setAttribute('id', 'my_title')
+myElement.appendChild(title)
+
+const span = document.createElement('span')
+span.setAttribute('id', 'my_span')
+myElement.appendChild(span)
+
+Manatsu.removeChildren(myElement, 'span')
+console.log(document.querySelector('#my_title')) // <h1 id="my_title">
+console.log(document.querySelector('#my_span')) // null
 ```
