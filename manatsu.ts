@@ -289,7 +289,7 @@ class Manatsu {
 
         for (const item of items) {
             const stringToAdd = text[items.indexOf(item)];
-            if (typeof stringToAdd !== 'string') throw new InsidiousError(`${stringToAdd} não é uma string`);
+            if (typeof stringToAdd !== 'string') throw new ManatsuError(`${stringToAdd} não é uma string`);
 
             if (item instanceof Element) item.textContent = stringToAdd;
             if (item instanceof Manatsu) item.addOptions({ text: stringToAdd }, true);
