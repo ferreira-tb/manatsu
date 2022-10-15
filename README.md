@@ -14,7 +14,7 @@
     
 - Classe: DOM
     - [Manatsu.addTextContent()](#addtextcontentitems-text)
-    - Manatsu.createCheckbox()
+    - [Manatsu.createCheckbox()](#createcheckboxoptions-create-parentelement)
     - Manatsu.disableChildren()
     - Manatsu.enableChildren()
     - Manatsu.remove()
@@ -212,7 +212,7 @@ Manatsu.addTextContent(paragraphs, quotes);
 ### createCheckbox(options, create[, parentElement])
 - **options**: Object - Um objeto contendo detalhes sobre a `checkbox`.
     - **id**: ID da `checkbox`.
-    - **label**: Texto para o elemento `label` que acompanhará a `checkbox`.
+    - **label**: Texto para o elemento `label` que a acompanhará.
 - **create**: boolean - Determina se os itens resultantes devem ou não ser transformados em elementos HTML. Padrão: `false`.
 - **parent**: HTMLElement
 - **Returns**: Array contendo a `checkbox` e sua `label`.
@@ -228,8 +228,12 @@ A depender do valor de `create`, o método retornará uma array contendo objetos
 ```javascript
 const parent = document.querySelector('#myDiv')
 
-const firstCheckbox = Manatsu.createCheckbox({ id: 'first', label: 'Ativar Manatsu' }, false, parent)
-const secondCheckbox = Manatsu.createCheckbox({ id: 'second', label: 'Ativar Insidious' }, false, parent)
+const firstOptions = { id: 'first', label: 'Ativar Manatsu' }
+const firstCheckbox = Manatsu.createCheckbox(firstOptions, false, parent)
+
+const secondOptions = { id: 'second', label: 'Ativar Insidious' }
+const secondCheckbox = Manatsu.createCheckbox(secondOptions, false, parent)
+
 const checkboxes = [...firstCheckbox, ...secondCheckbox]
 
 const button = document.querySelector('#myButton')
