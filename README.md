@@ -182,7 +182,8 @@ Ferramentas para manipulação do DOM.
 ### addTextContent(items, text)
 
 - **items**: (Element | Manatsu)[] - Elementos ou objetos Manatsu aos quais adicionar o texto.
-- **text**: string[] - Array de strings contendo o texto a ser adicionado aos itens.
+- **text**: string[] - Array de strings contendo o texto a ser adicionado.
+- **Returns**: (Element | Manatsu)[] - A array elementos ou objetos Manatsu após a modificação de `textContent`.
 
 Adiciona texto em vários elementos ou objetos Manatsu de uma única vez.
 
@@ -206,6 +207,35 @@ const quotes = [
 const parent = document.querySelector('#myDiv')
 const paragraphs = Manatsu.repeat(6, parent, { class: 'myParagraphs' }, true);
 Manatsu.addTextContent(paragraphs, quotes);
+```
+
+### createCheckbox(options, create[, parentElement])
+- **options**: Object - Um objeto contendo detalhes sobre a `checkbox`.
+    - **id**: ID da `checkbox`.
+    - **label**: Texto para o elemento `label` que acompanhará a `checkbox`.
+- **create**: boolean - Determina se os itens resultantes devem ou não ser transformados em elementos HTML. Padrão: `false`.
+- **parent**: HTMLElement
+- **Returns**: Array contendo a `checkbox` e sua `label`.
+
+Cria um `input` do tipo `checkbox` e em seguida uma `label` que será associada a ele.
+Essa associação acontece através do atributo `for` da `label`.
+
+As propriedades `id` e `label` do objeto `options` são obrigatórias.
+Além disso, qualquer outra propriedade fornecida será ignorada.
+
+A depender do valor de `create`, o método retornará uma array contendo objetos Manatsu ou elementos.
+
+```javascript
+const parent = document.querySelector('#myDiv')
+
+const firstCheckbox = Manatsu.createCheckbox({ id: 'first', label: 'Ativar Manatsu' }, false, parent)
+const secondCheckbox = Manatsu.createCheckbox({ id: 'second', label: 'Ativar Insidious' }, false, parent)
+const checkboxes = [...firstCheckbox, ...secondCheckbox]
+
+const button = document.querySelector('#myButton')
+button.addEventListener('click', () => {
+    if (someCondition) Manatsu.createAll(checkboxes);
+});
 ```
 
 ### disableChildren(parent[, selector])
