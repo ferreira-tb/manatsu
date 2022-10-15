@@ -7,7 +7,6 @@
     - [Manatsu.prototype.createBefore()](#createbeforereferencenode)
     - Manatsu.prototype.createInside()
 
-
 - [Classe: Manatsu](#classe-manatsu)
 
 - [Classe: DOM](#classe-dom)
@@ -31,16 +30,35 @@ const myElement = new Manatsu('input', anotherElement, {
 })
 ```
 
-Cria um objeto representando o elemento HTML desejado. Todos os parâmetros são opcionais. Caso um parâmetro de determinado tipo for fornecido mais de uma vez, apenas a última ocorrência é considerada.
+Cria um objeto representando o elemento HTML desejado. Todos os parâmetros são opcionais.
+Caso um parâmetro de determinado tipo for fornecido mais de uma vez, apenas a última ocorrência é considerada.
 
-Para atribuir `textContent` deve-se adicionar `text` aos itens escolhidos em `options`. Para `innerText`, usa-se `inner`. Não há suporte para `innerHTML`.
+Para atribuir `textContent` deve-se adicionar `text` aos itens escolhidos em `options`.
+Para `innerText`, usa-se `inner`. Não há suporte para `innerHTML`.
 
 ```javascript
-const myElement = new Manatsu('span', { text: 'Texto dentro do span.' }).create()
-console.log(myElement.textContent) // 'Texto dentro do span.'
+const myElement = new Manatsu('span', { text: 'Olá, Mundo!' }).create()
+console.log(myElement.textContent) // 'Olá, Mundo!'
 ```
 
 ## Instância
+
+### addOptions(options[, overwrite])
+
+- **options**: Object - Lista com novos atributos para o elemento.
+- **overwrite**: boolean - Determina se os atributos serão sobrescritos caso já existam. Padrão: `true`.
+- **Returns**: O próprio objeto Manatsu, agora modificado.
+
+```javascript
+const myElement = new Manatsu()
+myElement.addOptions({ class: 'myClass' })
+console.log(myElement.options) // 'Object { class: 'myClass' }'
+
+myElement.addOptions({ id: 'myDiv', class: 'anotherClass' }, false)
+console.log(myElement.options) // 'Object { id: 'myDiv', class: 'myClass' }'
+```
+
+Adiciona novos atributos ao objeto Manatsu.
 
 ### create()
 
@@ -54,7 +72,7 @@ Cria um elemento a partir do objeto Manatsu.
 
 ### createBefore(referenceNode)
 
-- **referenceNode**: HTMLElement - Elemento antes do qual o novo será inserido.
+- **referenceNode**: Node | null - Elemento antes do qual o novo será inserido.
 - **Returns**: HTMLElement
 
 ```javascript
@@ -65,25 +83,27 @@ myElement.createBefore(referenceNode)
 ```
 
 Cria um elemento a partir do objeto Manatsu e o insere antes do elemento indicado como referência.
+Caso `referenceNode` seja `null`, o método terá o mesmo efeito de [`Manatsu.prototype.create()`](#create).
 
-O método `createBefore()` só funcionará caso `parent` tenha sido definido no objeto Manatsu.
+O método só funcionará caso `parent` tenha sido definido no objeto Manatsu.
 
-### addOptions(options[, overwrite])
+### createInside([element, parent, options])
 
-- **options**: Object - Lista com novos atributos para o elemento.
-- **overwrite**: boolean - Determina se os atributos serão sobrescritos caso já existam. Padrão: `true`.
-- **Returns**: O próprio objeto.
+- **element**: string - Define o tipo do elemento que será usado como envelope. Padrão: `div`.
+- **parent**: HTMLElement
+- **options**: Object - Lista com os atributos do elemento.
+- **Returns**: HTMLElement - O objeto Manatsu original, agora como elemento.
 
 ```javascript
-const myElement = new Manatsu()
-myElement.addOptions({ class: 'myClass' })
-console.log(myElement.options) // 'Object { class: 'myClass' }'
+const parent = document.querySelector('#myDiv')
+let myElement = new Manatsu('span', parent, { text: 'Brasil!' })
+myElement = myElement.createInside('p', { id: '#newParent' })
 
-myElement.addOptions({ id: 'myDiv', class: 'anotherClass' }, false)
-console.log(myElement.options) // 'Object { id: 'myDiv', class: 'myClass' }'
+const newParent = document.querySelector('#newParent')
+console.log(myElement.parentElement === newParent) // true
 ```
-
-Adiciona novos atributos ao objeto Manatsu.
+Cria um elemento e o envelopa com outro elemento. Esse outro elemento será criado com base nos argumentos fornecidos ao método,
+que são os mesmos normalmente fornecidos ao [construtor](#construtor) da classe.
 
 ## Classe: Manatsu
 
