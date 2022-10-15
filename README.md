@@ -17,8 +17,8 @@
     - [Manatsu.createCheckbox()](#createcheckboxoptions-create-parentelement)
     - [Manatsu.disableChildren()](#disablechildrenparent-recursive-selector)
     - [Manatsu.enableChildren()](#enablechildrenparent-recursive-selector)
-    - Manatsu.remove()
-    - Manatsu.removeChildren()
+    - [Manatsu.remove()]()
+    - [Manatsu.removeChildren()](#removechildrenparent-selector)
 
 ## Construtor
 
@@ -209,11 +209,11 @@ const paragraphs = Manatsu.repeat(6, parent, { class: 'my_paragraphs' }, true)
 Manatsu.addTextContent(paragraphs, quotes)
 ```
 
-### createCheckbox(options, create[, parentElement])
+### createCheckbox(options[, create, parentElement])
 - **options**: Object - Um objeto contendo detalhes sobre a `checkbox`.
     - **id**: ID da `checkbox`.
     - **label**: Texto para o elemento `label` que a acompanhará.
-- **create**: boolean - Determina se os itens resultantes devem ou não ser transformados em elementos HTML. Padrão: `false`.
+- **create**: boolean - Determina se os itens devem ser transformados em elementos HTML. Padrão: `false`.
 - **parent**: HTMLElement
 - **Returns**: Array contendo a `checkbox` e sua `label`.
 
@@ -282,6 +282,23 @@ console.log(button.hasAttribute('disabled')) // true
 
 Manatsu.enableChildren(parent, true, 'button')
 console.log(button.hasAttribute('disabled')) // false
+```
+
+### remove(element)
+
+- **element**: Element | Element[] - Elemento(s) que se deseja remover.
+
+Remove um elemento ou mais elementos do documento.
+Ao contrário de [`Node.removeChild()`](https://developer.mozilla.org/en-US/docs/Web/API/Node/removeChild),
+não é necessário especificar o pai.
+Além disso, quando mais de um elemento é fornecido, não é necessário que todos tenham o mesmo pai.
+
+```javascript
+const elements = Array.from(document.querySelectorAll('span'))
+Manatsu.remove(elements)
+
+const span = document.querySelector('span')
+console.log(span) // null
 ```
 
 ### removeChildren(parent[, selector])
