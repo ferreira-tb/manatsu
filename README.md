@@ -15,7 +15,7 @@
 - Classe: DOM
     - [Manatsu.addTextContent()](#addtextcontentitems-text)
     - [Manatsu.createCheckbox()](#createcheckboxoptions-create-parentelement)
-    - Manatsu.disableChildren()
+    - [Manatsu.disableChildren()](#disablechildrenparent-selector)
     - Manatsu.enableChildren()
     - Manatsu.remove()
     - Manatsu.removeChildren()
@@ -192,7 +192,7 @@ Se as arrays forem de tamanhos diferentes e a array de strings for a maior, o m�
 Se a array contendo os elementos ou objetos Manatsu for maior, o método adicionará o texto respeitando a ordem,
 até chegar ao ponto onde a diferença ocorre. Dali em diante, passará a adicionar a string no índice zero ao restante dos itens.
 
-É interessante observar seu uso em conjunto com [Manatsu.repeat()](#repeatamount-element-parent-options-create):
+É interessante observar seu uso em conjunto com [`Manatsu.repeat()`](#repeatamount-element-parent-options-create):
 
 ```javascript
 const quotes = [
@@ -242,9 +242,10 @@ button.addEventListener('click', () => {
 });
 ```
 
-### disableChildren(parent[, selector])
+### disableChildren(parent, recursive[, selector])
 
 - **parent**: HTMLElement
+- **recursive**: boolean - Indica se o método deve atuar recursivamente. Padrão: `false`.
 - **selector**: string - Seletor CSS identificando quais elementos-filho serão alvo.
 
 Adiciona o atributo `disabled` a todos os filhos do elemento indicado.
@@ -252,7 +253,7 @@ Caso um seletor CSS seja fornecido, adiciona somente aos filhos que o satisfaça
 
 ```javascript
 const parent = document.querySelector('#myDiv')
-Manatsu.disableChildren(parent, 'button');
+Manatsu.disableChildren(parent, true, 'button');
 
 const button = parent.querySelector('button')
 console.log(button.hasAttribute('disabled')) // true
@@ -261,13 +262,27 @@ const title = parent.querySelector('h1')
 console.log(title.hasAttribute('disabled')) // false
 ```
 
-### enableChildren(parent[, selector])
+### enableChildren(parent, recursive[, selector])
 
 - **parent**: HTMLElement
+- **recursive**: boolean - Indica se o método deve atuar recursivamente. Padrão: `false`.
 - **selector**: string - Seletor CSS identificando quais elementos-filho serão alvo.
 
 Remove o atributo `disabled` de todos os filhos do elemento indicado.
 Caso um seletor CSS seja fornecido, remove somente dos filhos que o satisfaçam.
+
+É comum seu uso em conjunto com [`Manatsu.disableChildren()`](#disablechildrenparent-selector).
+
+```javascript
+const parent = document.querySelector('#myDiv')
+Manatsu.disableChildren(parent, true, 'button');
+
+const button = parent.querySelector('button')
+console.log(button.hasAttribute('disabled')) // true
+
+Manatsu.enableChildren(parent, true, 'button');
+console.log(button.hasAttribute('disabled')) // false
+```
 
 ### removeChildren(parent[, selector])
 
