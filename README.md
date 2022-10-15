@@ -1,17 +1,16 @@
 # Manatsu
 
-- [Construtor](https://github.com/ferreira-tb/manatsu#construtor)
-    - new Manatsu()
-- [Instância](https://github.com/ferreira-tb/manatsu#inst%C3%A2ncia)
+- [Construtor](#construtor)
+- Instância
     - [Manatsu.prototype.addOptions()](#addoptionsoptions-overwrite)
-    - [Manatsu.prototype.create()](https://github.com/ferreira-tb/manatsu#create)
-    - [Manatsu.prototype.createBefore()](https://github.com/ferreira-tb/manatsu#createbeforereferencenode)
+    - [Manatsu.prototype.create()](#create)
+    - [Manatsu.prototype.createBefore()](#createbeforereferencenode)
     - Manatsu.prototype.createInside()
 
 
-- [Classe: Manatsu](https://github.com/ferreira-tb/manatsu#classe-manatsu)
+- [Classe: Manatsu](#classe-manatsu)
 
-- [Classe: DOM](https://github.com/ferreira-tb/manatsu#classe-dom)
+- [Classe: DOM](#classe-dom)
 
 ## Construtor
 
