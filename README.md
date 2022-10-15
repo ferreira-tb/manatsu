@@ -13,7 +13,7 @@
     - [Manatsu.repeat()](#repeatamount-element-parent-options-create)
     
 - Classe: DOM
-    - Manatsu.addTextContent()
+    - [Manatsu.addTextContent()](#addtextcontentitems-text)
     - Manatsu.createCheckbox()
     - Manatsu.disableChildren()
     - Manatsu.enableChildren()
@@ -191,7 +191,22 @@ Se as arrays forem de tamanhos diferentes e a array de strings for a maior, o m�
 Se a array contendo os elementos ou objetos Manatsu for maior, o método adicionará o texto respeitando a ordem,
 até chegar ao ponto onde a diferença ocorre. Dali em diante, passará a adicionar a string no índice zero ao restante dos itens.
 
+É interessante observar seu uso em conjunto com [Manatsu.repeat()](#repeatamount-element-parent-options-create):
 
+```javascript
+const quotes = [
+    'Vós que viveis e sempre atribuís tudo o que ocorre na terra',
+    'aos movimentos celestes, como se tal movimento imprimisse',
+    'em todas as coisas uma necessidade,',
+    'Se assim fosse, em vós seria destruído',
+    'o livre-arbítrio, e não seria justo que o homem tivesse',
+    'por bem a alegria e por mal a dor.'
+];
+
+const parent = document.querySelector('#myDiv')
+const paragraphs = Manatsu.repeat(6, parent, { class: 'myParagraphs' }, true);
+Manatsu.addTextContent(paragraphs, quotes);
+```
 
 ### disableChildren(parent[, selector])
 
