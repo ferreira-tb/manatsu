@@ -250,6 +250,17 @@ button.addEventListener('click', () => {
 Adiciona o atributo `disabled` a todos os filhos do elemento indicado.
 Caso um seletor CSS seja fornecido, adiciona somente aos filhos que o satisfaçam.
 
+```javascript
+const parent = document.querySelector('#myDiv')
+Manatsu.disableChildren(parent, 'button');
+
+const button = parent.querySelector('button')
+console.log(button.hasAttribute('disabled')) // true
+
+const title = parent.querySelector('h1')
+console.log(title.hasAttribute('disabled')) // false
+```
+
 ### enableChildren(parent[, selector])
 
 - **parent**: HTMLElement
