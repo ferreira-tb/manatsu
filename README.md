@@ -1,18 +1,18 @@
 # Manatsu
 
-- [Construtor](#construtor)
-- Instância
+- [**Construtor**](#construtor)
+- **Instância**
     - [Manatsu.prototype.addOptions()](#addoptionsoptions-overwrite)
     - [Manatsu.prototype.create()](#create)
     - [Manatsu.prototype.createBefore()](#createbeforereferencenode)
     - [Manatsu.prototype.createInside()](#createinsideelement-parent-options)
 
-- Classe: Manatsu
+- **Classe: Manatsu**
     - [Manatsu.createAll()](#createallarray)
     - [Manatsu.fromTemplate()](#fromtemplatereference-options)
     - [Manatsu.repeat()](#repeatamount-element-parent-options-create)
     
-- Classe: DOM
+- **Classe: DOM**
     - [Manatsu.addTextContent()](#addtextcontentitems-text)
     - [Manatsu.createCheckbox()](#createcheckboxoptions-create-parentelement)
     - [Manatsu.disableChildren()](#disablechildrenparent-recursive-selector)
