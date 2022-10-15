@@ -315,19 +315,33 @@ class Manatsu {
      * Adiciona o atributo 'disabled' a todos os filhos do elemento indicado. 
      * Caso um seletor CSS seja fornecido, adiciona somente aos filhos que o satisfaçam.
      * @param parentElement
-     * @param selector - Seletor CSS identificando quais elementos-filho serão alvo.
+     * @param recursive Indica se o método deve atuar recursivamente.
+     * @param selector Seletor CSS identificando quais elementos-filho serão alvo.
      */
-     static disableChildren(parentElement: Element, selector?: string) {
+     static disableChildren(parentElement: Element, recursive: boolean = false, selector?: string) {
         if (!(parentElement instanceof Element)) throw new ManatsuError('O elemento fornecido é inválido.');
-        if (selector && typeof selector !== 'string') throw new ManatsuError('O seletor precisa ser uma string.');
 
-        if (selector) {
-            const children = parentElement.querySelectorAll(selector);
-            children.forEach((child: Element) => child.setAttribute('disabled', ''));
+        if (typeof selector === 'string') {
+            if (recursive === true) {
+                const children = parentElement.querySelectorAll(selector);
+                children.forEach((child) => child.setAttribute('disabled', ''));
+                
+            } else {
+                const children = Array.from(parentElement.children);
+                for (const child of children) {
+                    const matchingElement = parentElement.querySelector(selector);
+                    if (matchingElement === child) child.setAttribute('disabled', '');
+                };
+            };
 
         } else {
-            for (const child of Array.from(parentElement.children)) {
+            const children = Array.from(parentElement.children);
+            for (const child of children) {
                 child.setAttribute('disabled', '');
+
+                if (child.children.length > 0 && recursive === true) {
+                    this.disableChildren(child, true);
+                };
             };
         };
     };
@@ -336,21 +350,37 @@ class Manatsu {
      * Remove o atributo 'disabled' de todos os filhos do elemento indicado. 
      * Caso um seletor CSS seja fornecido, remove somente dos filhos que o satisfaçam.
      * @param parentElement
+     * @param recursive Indica se o método deve atuar recursivamente.
      * @param selector - Seletor CSS identificando quais elementos-filho serão alvo.
      */
-     static enableChildren(parentElement: Element, selector?: string) {
+     static enableChildren(parentElement: Element, recursive: boolean = false, selector?: string) {
         if (!(parentElement instanceof Element)) throw new ManatsuError('O elemento fornecido é inválido.');
-        if (selector && typeof selector !== 'string') throw new ManatsuError('O seletor precisa ser uma string.');
 
-        if (selector) {
-            const children = parentElement.querySelectorAll(selector);
-            children.forEach((child: Element) => {
-                if (child.hasAttribute('disabled')) child.removeAttribute('disabled');
-            });
+        if (typeof selector === 'string') {
+            if (recursive === true) {
+                const children = parentElement.querySelectorAll(selector);
+                children.forEach((child) => {
+                    if (child.hasAttribute('disabled')) child.removeAttribute('disabled');
+                });
+
+            } else {
+                const children = Array.from(parentElement.children);
+                for (const child of children) {
+                    const matchingElement = parentElement.querySelector(selector);
+                    if (matchingElement === child && child.hasAttribute('disabled')) {
+                        child.removeAttribute('disabled');
+                    };
+                };
+            };
+            
 
         } else {
             for (const child of Array.from(parentElement.children)) {
                 if (child.hasAttribute('disabled')) child.removeAttribute('disabled');
+
+                if (child.children.length > 0 && recursive === true) {
+                    this.enableChildren(child, true);
+                };
             };
         };
     };
