@@ -1,5 +1,13 @@
 # Manatsu
 
+- Constructor
+    - new Manatsu()
+- [Instância](https://github.com/ferreira-tb/manatsu/edit/main/README.md#inst%C3%A2ncia)
+
+- [Classe: Manatsu]()
+
+- [Classe: DOM]()
+
 ```javascript
 new Manatsu([element, parent, options])
 ```
@@ -71,7 +79,7 @@ console.log(myElement.options) // 'Object { id: 'myDiv', class: 'myClass' }'
 
 Adiciona novos atributos ao objeto Manatsu.
 
-## Classe - Manatsu
+## Classe: Manatsu
 
 ### createAll(array)
 
@@ -125,7 +133,7 @@ console.log(myElements[2].options) // 'Object { class: 'myClass' }'
 console.log(myElements[5].element) // 'div'
 ```
 
-## Classe - Geral
+## Classe: DOM
 
 ### disableChildren(parent[, selector])
 
