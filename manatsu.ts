@@ -137,44 +137,44 @@ class Manatsu {
 
     /** 
      * Cria um objeto Manatsu a partir de outro já existente ou tendo algum elemento como referência. 
-     * @param item - Objeto Manatsu ou elemento a ser usado como base.
+     * @param reference - Objeto Manatsu ou elemento a ser usado como base.
      * @param options - Lista com novos atributos para o elemento.
      */
-    static fromTemplate(item: Manatsu | Element, options?: Option): Manatsu {
-        if (item instanceof Manatsu) {
-            const properties: ConstructorArgs = [item.element, item.parent];
+    static fromTemplate(reference: Manatsu | Element, options?: Option): Manatsu {
+        if (reference instanceof Manatsu) {
+            const properties: ConstructorArgs = [reference.element, reference.parent];
             if (options && Validation.isValidOption(options)) {
-                return new Manatsu(...properties, item.options).addOptions(options, true);
+                return new Manatsu(...properties, reference.options).addOptions(options, true);
 
             } else {
-                return new Manatsu(...properties, item.options);
+                return new Manatsu(...properties, reference.options);
             };
 
-        } else if (item instanceof Element) {
+        } else if (reference instanceof Element) {
             const newOptions: Option = {};
 
-            const attributeNames: Set<string> = new Set(item.getAttributeNames());
+            const attributeNames: Set<string> = new Set(reference.getAttributeNames());
             if (attributeNames.size > 0) {
                 attributeNames.forEach((attribute) => {
                     Object.defineProperty(newOptions, attribute, {
-                        value: item.getAttribute(attribute),
+                        value: reference.getAttribute(attribute),
                         enumerable: true,
                         writable: true
                     });
                 });  
             };
 
-            if (item.textContent) {
+            if (reference.textContent) {
                 Object.defineProperty(newOptions, 'text', {
-                    value: item.textContent,
+                    value: reference.textContent,
                     enumerable: true,
                     writable: true
                 });
             };
 
-            if ((item as HTMLElement).innerText) {
+            if ((reference as HTMLElement).innerText) {
                 Object.defineProperty(newOptions, 'inner', {
-                    value: (item as HTMLElement).innerText,
+                    value: (reference as HTMLElement).innerText,
                     enumerable: true,
                     writable: true
                 });
@@ -190,10 +190,10 @@ class Manatsu {
                 };
             };
 
-            return new Manatsu(item.nodeName, item.parentElement, newOptions);
+            return new Manatsu(reference.nodeName, reference.parentElement, newOptions);
 
         } else {
-            throw new ManatsuError('O item escolhido é inválido.');
+            throw new ManatsuError('O item indicado como refêrencia é inválido.');
         };
     };
 
