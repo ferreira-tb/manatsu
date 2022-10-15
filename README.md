@@ -17,7 +17,7 @@
     - [Manatsu.createCheckbox()](#createcheckboxoptions-create-parentelement)
     - [Manatsu.disableChildren()](#disablechildrenparent-recursive-selector)
     - [Manatsu.enableChildren()](#enablechildrenparent-recursive-selector)
-    - [Manatsu.remove()]()
+    - [Manatsu.remove()](#removeelement)
     - [Manatsu.removeChildren()](#removechildrenparent-selector)
 
 ## Construtor
