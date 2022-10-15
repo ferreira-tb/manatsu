@@ -385,7 +385,6 @@ class Manatsu {
         };
     };
 
-    ////// GERAL
     /**
      * Remove um elemento ou mais elementos do documento.
      * Ao contrário de Node.removeChild(), não é necessário especificar o pai.
@@ -406,7 +405,6 @@ class Manatsu {
             const parentElement = elementsToRemove.parentElement;
             if (!parentElement) throw new ManatsuError('O elemento não possui um pai.');
             parentElement.removeChild(elementsToRemove);
-
         } else {
             throw new ManatsuError('O elemento é inválido.');
         };
