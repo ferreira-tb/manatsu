@@ -256,19 +256,23 @@ class Manatsu {
 
     ////// DOM
     /** 
-     * Adiciona texto em vários elementos ou objetos Manatsu de uma única vez. 
-     * Emite um erro caso o tamanho das arrays fornecidas seja diferente.
+     * Adiciona texto em vários elementos ou objetos Manatsu de uma única vez.
+     * 
+     * Se as arrays forem de tamanhos diferentes e a array de strings for a maior,
+     * o método irá ignorar qualquer string extra.
+     * 
+     * Se a array contendo os elementos ou objetos Manatsu for maior, o método adicionará o texto respeitando a ordem,
+     * até chegar ao ponto onde a diferença ocorre. Dali em diante, passará a adicionar a string no índice zero ao restante dos itens.
      * @param items - Array de elementos ou objetos Manatsu.
-     * @param text - Array contendo as strings que serão utilizadas.
+     * @param text - Array de strings contendo o texto a ser adicionado aos itens.
      */
      static addTextContent(items: (Element | Manatsu)[], text: string[]) {
-        if (!items) throw new ManatsuError('É preciso fornecer uma array de elementos ou objetos Manatsu.');
-        if (!text) throw new ManatsuError('É preciso fornecer uma array de strings.');
+        if (!Array.isArray(items)) throw new ManatsuError('É preciso fornecer uma array de elementos ou objetos Manatsu.');
+        if (!Array.isArray(text)) throw new ManatsuError('É preciso fornecer uma array contendo as strings que serão adicionadas aos itens.');
         if (items.length === 0 || text.length === 0) throw new ManatsuError('As arrays não podem estar vazias.');
-        if (items.length !== text.length) throw new ManatsuError('As arrays precisam ter o mesmo tamanho.');
 
         for (const item of items) {
-            const stringToAdd = text[items.indexOf(item)];
+            const stringToAdd = text[items.indexOf(item)] ?? text[0];
             if (typeof stringToAdd !== 'string') throw new ManatsuError(`${stringToAdd} não é uma string`);
 
             if (item instanceof Element) item.textContent = stringToAdd;
