@@ -179,6 +179,20 @@ console.log(myElements[5].element) // 'div'
 
 Ferramentas para manipulação do DOM.
 
+### addTextContent(items, text)
+
+- **items**: (Element | Manatsu)[] - Elementos ou objetos Manatsu aos quais adicionar o texto.
+- **text**: string[] - Array de strings contendo o texto a ser adicionado aos itens.
+
+Adiciona texto em vários elementos ou objetos Manatsu de uma única vez.
+
+Se as arrays forem de tamanhos diferentes e a array de strings for a maior, o método irá ignorar qualquer string extra.
+
+Se a array contendo os elementos ou objetos Manatsu for maior, o método adicionará o texto respeitando a ordem,
+até chegar ao ponto onde a diferença ocorre. Dali em diante, passará a adicionar a string no índice zero ao restante dos itens.
+
+
+
 ### disableChildren(parent[, selector])
 
 - **parent**: HTMLElement
