@@ -5,11 +5,20 @@
     - [Manatsu.prototype.addOptions()](#addoptionsoptions-overwrite)
     - [Manatsu.prototype.create()](#create)
     - [Manatsu.prototype.createBefore()](#createbeforereferencenode)
-    - Manatsu.prototype.createInside()
+    - [Manatsu.prototype.createInside()](#createinsideelement-parent-options)
 
-- [Classe: Manatsu](#classe-manatsu)
-
-- [Classe: DOM](#classe-dom)
+- Classe: Manatsu
+    - Manatsu.createAll()
+    - Manatsu.fromTemplate()
+    - Manatsu.repeat()
+    
+- Classe: DOM
+    - Manatsu.addTextContent()
+    - Manatsu.createCheckbox()
+    - Manatsu.disableChildren()
+    - Manatsu.enableChildren()
+    - Manatsu.remove()
+    - Manatsu.removeChildren()
 
 ## Construtor
 
@@ -107,12 +116,15 @@ que são os mesmos normalmente fornecidos ao [construtor](#construtor) da classe
 
 ## Classe: Manatsu
 
+Métodos que envolvem diretamente a manipulação de objetos Manatsu.
+
 ### createAll(array)
 
 - **array**: Manatsu[]
 - **Returns**: HTMLElement[]
 
-Cria vários elementos de uma só vez, a partir de uma array de objetos Manatsu. É equivalente a usar `create()` separadamente em cada um dos objetos.
+Cria vários elementos de uma só vez, a partir de uma array de objetos Manatsu.
+É equivalente a usar [`Manatsu.prototype.create()`](#create) separadamente em cada um dos objetos.
 
 Retorna uma array com todos os elementos criados.
 
@@ -143,9 +155,12 @@ const anotherElement = Manatsu.fromTemplate(myElement)
 - **create**: boolean - Determina se os objetos devem ou não ser transformados em elementos HTML.
 - **Returns**: Manatsu[] | HTMLElement[]
 
-Cria vários objetos Manatsu a partir dos parâmetros especificados. É possível designar vários tipos diferentes para os elementos, mas apenas um `parent` e um objeto `options`.
+Cria vários objetos Manatsu a partir dos parâmetros especificados.
+É possível designar vários tipos diferentes para os elementos, mas apenas um `parent` e um objeto `options`.
 
-Caso vários tipos sejam fornecidos, `repeat()` os atribuirá em ordem. Se a quantidade de cópias desejada for maior que a quantidade de tipos fornecidos, `repeat()` fará normalmente a atribuição em ordem para esses fornecidos e atribuirá `div` ao restante.
+Caso vários tipos sejam fornecidos, `repeat()` os atribuirá em ordem.
+Se a quantidade de cópias desejada for maior que a quantidade de tipos fornecidos,
+`repeat()` fará normalmente a atribuição em ordem para esses fornecidos e atribuirá `div` ao restante.
 
 ```javascript
 const anotherElement = document.querySelector('#myDiv')
@@ -161,19 +176,23 @@ console.log(myElements[5].element) // 'div'
 
 ## Classe: DOM
 
+Ferramentas para manipulação do DOM.
+
 ### disableChildren(parent[, selector])
 
 - **parent**: HTMLElement
 - **selector**: string - Seletor CSS identificando quais elementos-filho serão alvo.
 
-Adiciona o atributo `disabled` a todos os filhos do elemento indicado. Caso um seletor CSS seja fornecido, adiciona somente aos filhos que o satisfaçam.
+Adiciona o atributo `disabled` a todos os filhos do elemento indicado.
+Caso um seletor CSS seja fornecido, adiciona somente aos filhos que o satisfaçam.
 
 ### enableChildren(parent[, selector])
 
 - **parent**: HTMLElement
 - **selector**: string - Seletor CSS identificando quais elementos-filho serão alvo.
 
-Remove o atributo `disabled` de todos os filhos do elemento indicado. Caso um seletor CSS seja fornecido, remove somente dos filhos que o satisfaçam.
+Remove o atributo `disabled` de todos os filhos do elemento indicado.
+Caso um seletor CSS seja fornecido, remove somente dos filhos que o satisfaçam.
 
 ### removeChildren(parent[, selector])
 
