@@ -265,8 +265,9 @@ class Manatsu {
      * até chegar ao ponto onde a diferença ocorre. Dali em diante, passará a adicionar a string no índice zero ao restante dos itens.
      * @param items - Array de elementos ou objetos Manatsu.
      * @param text - Array de strings contendo o texto a ser adicionado aos itens.
+     * @returns - A array elementos ou objetos Manatsu após a modificação de `textContent`.
      */
-     static addTextContent(items: (Element | Manatsu)[], text: string[]) {
+     static addTextContent(items: (Element | Manatsu)[], text: string[]): (Element | Manatsu)[] {
         if (!Array.isArray(items)) throw new ManatsuError('É preciso fornecer uma array de elementos ou objetos Manatsu.');
         if (!Array.isArray(text)) throw new ManatsuError('É preciso fornecer uma array contendo as strings que serão adicionadas aos itens.');
         if (items.length === 0 || text.length === 0) throw new ManatsuError('As arrays não podem estar vazias.');
@@ -283,10 +284,11 @@ class Manatsu {
     };
 
     /**
-     * Cria uma checkbox e um label associado à ela.
-     * @param options - Um objeto contendo o ID da checkbox e um texto para o label.
+     * Cria uma `checkbox` e associa uma `label` à ela.
+     * @param options - Um objeto contendo o ID da `checkbox` e um texto para a `label`.
      * @param create - Determina se os objetos serão transformados ou não em elementos.
      * @param parentElement - Um elemento-pai para associar aos objetos.
+     * @returns Array contendo a `checkbox` e sua `label`. Pode ser uma array de objetos Manatsu ou de elementos.
      */
     static createCheckbox(options: CheckboxOptions, create: boolean = false, parentElement?: Element): CreateCheckboxReturnValue {
         if (!options.id || typeof options.id !== 'string') throw new ManatsuError('O id fornecido é inválido.');
