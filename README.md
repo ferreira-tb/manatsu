@@ -15,8 +15,8 @@
 - Classe: DOM
     - [Manatsu.addTextContent()](#addtextcontentitems-text)
     - [Manatsu.createCheckbox()](#createcheckboxoptions-create-parentelement)
-    - [Manatsu.disableChildren()](#disablechildrenparent-selector)
-    - Manatsu.enableChildren()
+    - [Manatsu.disableChildren()](#disablechildrenparent-recursive-selector)
+    - [Manatsu.enableChildren()](#enablechildrenparent-recursive-selector)
     - Manatsu.remove()
     - Manatsu.removeChildren()
 
@@ -271,7 +271,7 @@ console.log(title.hasAttribute('disabled')) // false
 Remove o atributo `disabled` de todos os filhos do elemento indicado.
 Caso um seletor CSS seja fornecido, remove somente dos filhos que o satisfaçam.
 
-É comum seu uso em conjunto com [`Manatsu.disableChildren()`](#disablechildrenparent-selector).
+É comum seu uso em conjunto com [`Manatsu.disableChildren()`](#disablechildrenparent-recursive-selector).
 
 ```javascript
 const parent = document.querySelector('#myDiv')
