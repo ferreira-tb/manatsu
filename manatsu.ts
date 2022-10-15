@@ -4,10 +4,23 @@ class Manatsu {
     #options: Option | null = null;
 
     constructor(...args: ConstructorArgs) {
-        for (const arg of args) if (arg !== null && arg !== undefined) this.#setProperty(arg);
+        for (const arg of args) if (arg !== null && arg !== undefined) this.setProperty(arg);
     };
 
-    #createElement(): HTMLElement {
+    private setProperty(value: AcceptableProperty) {
+        if (typeof value === 'string') {
+            if (!Validation.isValidElementName(value)) return;
+            this.#element = value.toLowerCase();
+
+        } else if (value instanceof Element) {
+            if (this.#parent === null) this.#parent = value;
+
+        } else if (Validation.isValidOption(value)) {
+            if (this.#options === null) this.#options = value;
+        };
+    };
+
+    private createElement(): HTMLElement {
         const newElement = document.createElement(this.#element);
         
         if (this.#options) {
@@ -27,8 +40,8 @@ class Manatsu {
     };
 
     /** Cria um elemento a partir do objeto Manatsu. */
-    #create(): HTMLElement {
-        const newElement = this.#createElement();
+    create(): HTMLElement {
+        const newElement = this.createElement();
         if (this.#parent) this.#parent.appendChild(newElement);
 
         return newElement;
@@ -36,55 +49,48 @@ class Manatsu {
 
     /** 
      * Cria um elemento a partir do objeto Manatsu e o insere antes do elemento indicado como referência.
-     * 
-     * O método createBefore() só funcionará caso parent tenha sido definido no objeto Manatsu.
+     * Se o elemento de referência for null, createBefore() tem o mesmo efeito de create().
+     * Além disso, se o objeto Manatsu possuir um pai, ele é trocado pelo pai do elemento de referência.
      * @param referenceNode - Elemento antes do qual o novo será inserido.
      */
-    #createBefore(referenceNode: Element): HTMLElement {
-        if (!(referenceNode instanceof Element)) throw new ManatsuError('O elemento de referência é inválido.');
-        if (!this.#parent) throw new ManatsuError('Não foi especificado um elemento pai.');
-        if (referenceNode.parentElement !== this.#parent) {
-            throw new ManatsuError('O elemento de referência possui um pai diferente.');
+    createBefore(referenceNode: Node | null): HTMLElement {
+        if (!(referenceNode instanceof Node)) {
+            switch (referenceNode) {
+                case null: return this.create();
+                default: throw new ManatsuError('O elemento de referência é inválido.');
+            };
+
+        } else {
+            if (!referenceNode.parentElement) throw new ManatsuError('O elemento de referência não possui um pai.');
+            if (this.#parent) this.#parent = referenceNode.parentElement;
+
+            const newElement = this.createElement();
+            referenceNode.parentElement.insertBefore(newElement, referenceNode);
+    
+            return newElement;
         };
-
-        const newElement = this.#createElement();
-        this.#parent.insertBefore(newElement, referenceNode);
-
-        return newElement;
     };
 
     /** 
      * Cria um elemento e o envelopa com outro elemento. 
      * Esse outro elemento será criado com base nos argumentos fornecidos à createInside().
      */
-    #createInside(...args: ConstructorArgs): HTMLElement {
+    createInside(...args: ConstructorArgs): HTMLElement {
         const newParent = new Manatsu(...args);
         if (!this.#parent && !newParent.parent) throw new ManatsuError('Não foi especificado um elemento pai para o container.');
         if (this.#parent && !newParent.parent) newParent.parent = this.#parent;
 
         this.#parent = newParent.create();
-        return this.#create();
+        return this.create();
     };
 
-    #setProperty(value: AcceptableProperty) {
-        if (typeof value === 'string') {
-            if (!Validation.isValidElementName(value)) return;
-            this.#element = value.toLowerCase();
-
-        } else if (value instanceof Element) {
-            if (this.#parent === null) this.#parent = value;
-
-        } else if (Validation.isValidOption(value)) {
-            if (this.#options === null) this.#options = value;
-        };
-    };
-
-    /** 
+    /**
      * Adiciona novos atributos ao objeto Manatsu.
      * @param option - Lista com novos atributos para o elemento.
      * @param overwrite - Determina se os atributos serão sobrescritos caso já existam.
+     * @returns O próprio objeto Manatsu, agora modificado.
      */
-    #addOptions(option: Option, overwrite: boolean = true) {
+    addOptions(option: Option, overwrite: boolean = true) {
         if (Validation.isValidOption(option)) {
             const oldOptions = this.#options ? { ...this.#options } : { };
             for (const [attribute, content] of Object.entries(option as object)) {
@@ -111,7 +117,7 @@ class Manatsu {
      * Se a quantidade de cópias desejada for maior que a quantidade de tipos fornecidos, 
      * repeat() fará normalmente a atribuição em ordem para esses fornecidos e atribuirá div ao restante.
      */
-    static #repeat(...args: RepeatConstructor): Manatsu[] | HTMLElement[] {
+    static repeat(...args: RepeatConstructor): Manatsu[] | HTMLElement[] {
         const manatsu: Manatsu[] = [];
         const element: string[] = [];
         let amount: number = 1;
@@ -154,7 +160,7 @@ class Manatsu {
         };
 
         if (shouldCreateThem === true) {
-            return this.#createAll(manatsu);
+            return this.createAll(manatsu);
         } else {
             return manatsu;
         };
@@ -165,7 +171,7 @@ class Manatsu {
      * É equivalente a usar create() separadamente em cada um dos objetos. 
      * @param manatsu - Array de objetos Manatsu.
      */
-    static #createAll(manatsu: Manatsu[]): HTMLElement[] {
+    static createAll(manatsu: Manatsu[]): HTMLElement[] {
         if (!Array.isArray(manatsu)) throw new ManatsuError('O valor fornecido não é uma array.');
         if (manatsu.length === 0) throw new ManatsuError('A array não pode estar vazia.');
 
@@ -185,7 +191,7 @@ class Manatsu {
      * @param item - Objeto Manatsu ou elemento a ser usado como base.
      * @param options - Lista com novos atributos para o elemento.
      */
-    static #fromTemplate(item: Manatsu | Element, options?: Option): Manatsu {
+    static fromTemplate(item: Manatsu | Element, options?: Option): Manatsu {
         if (item instanceof Manatsu) {
             const properties: ConstructorArgs = [item.element, item.parent];
             if (options && Validation.isValidOption(options)) {
@@ -198,12 +204,13 @@ class Manatsu {
         } else if (item instanceof Element) {
             const newOptions: Option = {};
 
-            const attributeNames: string[] = item.getAttributeNames();
-            if (attributeNames.length > 0) {
-                attributeNames.forEach((attribute: string) => {
+            const attributeNames: Set<string> = new Set(item.getAttributeNames());
+            if (attributeNames.size > 0) {
+                attributeNames.forEach((attribute) => {
                     Object.defineProperty(newOptions, attribute, {
                         value: item.getAttribute(attribute),
-                        enumerable: true
+                        enumerable: true,
+                        writable: true
                     });
                 });  
             };
@@ -211,14 +218,16 @@ class Manatsu {
             if (item.textContent) {
                 Object.defineProperty(newOptions, 'text', {
                     value: item.textContent,
-                    enumerable: true
+                    enumerable: true,
+                    writable: true
                 });
             };
 
             if ((item as HTMLElement).innerText) {
                 Object.defineProperty(newOptions, 'inner', {
                     value: (item as HTMLElement).innerText,
-                    enumerable: true
+                    enumerable: true,
+                    writable: true
                 });
             };
 
@@ -226,7 +235,8 @@ class Manatsu {
                 for (const [attribute, content] of Object.entries(options)) {
                     Object.defineProperty(newOptions, attribute, {
                         value: content,
-                        enumerable: true
+                        enumerable: true,
+                        writable: true
                     });
                 };
             };
@@ -244,7 +254,7 @@ class Manatsu {
      * @param create - Determina se os objetos serão transformados ou não em elementos.
      * @param parentElement - Um elemento-pai para associar aos objetos.
      */
-    static #createCheckbox(options: CheckboxOptions, create: boolean = false, parentElement?: Element): HTMLElement[] | Manatsu[] {
+    static createCheckbox(options: CheckboxOptions, create: boolean = false, parentElement?: Element): CreateCheckboxReturnValue {
         if (!options.id || typeof options.id !== 'string') throw new ManatsuError('O id fornecido é inválido.');
         if (!options.label || typeof options.label !== 'string') throw new ManatsuError('A descrição fornecida é inválida.');
         if (typeof create !== 'boolean') throw new ManatsuError('O argumento \"create\" precisa ser do tipo boolean.');
@@ -271,7 +281,7 @@ class Manatsu {
      * @param items - Array de elementos ou objetos Manatsu.
      * @param text - Array contendo as strings que serão utilizadas.
      */
-    static #addTextContent(items: (Element | Manatsu)[], text: string[]) {
+    static addTextContent(items: (Element | Manatsu)[], text: string[]) {
         if (!items) throw new ManatsuError('É preciso fornecer uma array de elementos ou objetos Manatsu.');
         if (!text) throw new ManatsuError('É preciso fornecer uma array de strings.');
         if (items.length === 0 || text.length === 0) throw new ManatsuError('As arrays não podem estar vazias.');
@@ -289,13 +299,40 @@ class Manatsu {
     };
 
     ////// GERAL
+    /**
+     * Remove um elemento ou mais elementos do documento.
+     * Ao contrário de Node.removeChild(), não é necessário especificar o pai.
+     * Além disso, quando mais de um elemento é fornecido, não é necessário que todos tenham o mesmo pai.
+     * @param elementsToRemove Elemento(s) que se deseja remover do documento.
+     */
+    static remove(elementsToRemove: Element | Element[]) {
+        if (Array.isArray(elementsToRemove)) {
+            elementsToRemove.forEach((element) => {
+                if (!(element instanceof Element)) throw new ManatsuError('O elemento é inválido.');
+
+                const parentElement = element.parentElement;
+                if (!parentElement) throw new ManatsuError('O elemento não possui um pai.');
+                parentElement.removeChild(element);
+            });
+
+        } else if (elementsToRemove instanceof Element) {
+            const parentElement = elementsToRemove.parentElement;
+            if (!parentElement) throw new ManatsuError('O elemento não possui um pai.');
+            parentElement.removeChild(elementsToRemove);
+
+        } else {
+            throw new ManatsuError('O elemento é inválido.');
+        };
+    };
+
+
     /** 
      * Remove todos os filhos do elemento indicado. 
      * Caso um seletor CSS seja fornecido, remove apenas os filhos que o satisfaçam.
      * @param parentElement
      * @param selector - Seletor CSS identificando quais elementos-filho serão alvo.
      */
-    static #removeChildren(parentElement: Element, selector?: string | string[]) {
+    static removeChildren(parentElement: Element, selector?: string | string[]) {
         if (!(parentElement instanceof Element)) throw new ManatsuError('O elemento fornecido é inválido.');
  
         if (typeof selector === 'string') {
@@ -320,7 +357,7 @@ class Manatsu {
      * @param parentElement
      * @param selector - Seletor CSS identificando quais elementos-filho serão alvo.
      */
-    static #enableChildren(parentElement: Element, selector?: string) {
+    static enableChildren(parentElement: Element, selector?: string) {
         if (!(parentElement instanceof Element)) throw new ManatsuError('O elemento fornecido é inválido.');
         if (selector && typeof selector !== 'string') throw new ManatsuError('O seletor precisa ser uma string.');
 
@@ -343,7 +380,7 @@ class Manatsu {
      * @param parentElement
      * @param selector - Seletor CSS identificando quais elementos-filho serão alvo.
      */
-    static #disableChildren(parentElement: Element, selector?: string) {
+    static disableChildren(parentElement: Element, selector?: string) {
         if (!(parentElement instanceof Element)) throw new ManatsuError('O elemento fornecido é inválido.');
         if (selector && typeof selector !== 'string') throw new ManatsuError('O seletor precisa ser uma string.');
 
@@ -357,14 +394,6 @@ class Manatsu {
             };
         };
     };
-
-    get create() {return this.#create};
-    get createBefore() {return this.#createBefore};
-    get createInside() {return this.#createInside};
-    get addOptions() {return this.#addOptions};
-    get element() {return this.#element};
-    get parent() {return this.#parent};
-    get options() {return this.#options};
 
     set element(name: string) {
         if (typeof name === 'string' && Validation.isValidElementName(name)) {
@@ -389,26 +418,16 @@ class Manatsu {
             throw new ManatsuError('O item fornecido é inválido.');
         };
     };
-
-    static get repeat() {return this.#repeat};
-    static get createAll() {return this.#createAll};
-    static get fromTemplate() {return this.#fromTemplate};
-    static get createCheckbox() {return this.#createCheckbox};
-    static get addTextContent() {return this.#addTextContent};
-
-    static get removeChildren() {return this.#removeChildren};
-    static get enableChildren() {return this.#enableChildren};
-    static get disableChildren() {return this.#disableChildren};
 };
 
 class Validation {
-    static #isValidElementName(name: string) {
+    static isValidElementName(name: string) {
         if (name.length === 0) throw new ManatsuError('O nome do elemento não foi fornecido.');
         if (!Boolean(name[0].match(/[a-zA-Z]/))) throw new ManatsuError('O nome do elemento precisa iniciar com uma letra (a-z).');
         return true;
     };
 
-    static #isValidOption(obj: unknown) {
+    static isValidOption(obj: unknown) {
         if (Object.getPrototypeOf(obj) === Object.prototype) {
             for (const [attribute, content] of Object.entries(obj as object)) {
                 if (typeof attribute !== 'string') throw new ManatsuError('O nome do atributo precisa ser uma string.');
@@ -418,9 +437,6 @@ class Validation {
         };
         return false;
     };
-
-    static get isValidOption() {return this.#isValidOption};
-    static get isValidElementName() {return this.#isValidElementName};
 };
 
 class ManatsuError extends Error {
