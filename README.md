@@ -1,12 +1,14 @@
 # Manatsu
 
-- Constructor
+- Construtor
     - new Manatsu()
-- [Instância](https://github.com/ferreira-tb/manatsu/edit/main/README.md#inst%C3%A2ncia)
+- [Instância](https://github.com/ferreira-tb/manatsu#inst%C3%A2ncia)
 
-- [Classe: Manatsu]()
+- [Classe: Manatsu](https://github.com/ferreira-tb/manatsu#classe-manatsu)
 
 - [Classe: DOM]()
+
+## Construtor
 
 ```javascript
 new Manatsu([element, parent, options])
