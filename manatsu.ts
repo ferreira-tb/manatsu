@@ -572,7 +572,7 @@ class Manatsu {
  
             // Muda o comportamento da função de acordo com o tipo chamado.
             const element = type === 'child' ? referenceElement : referenceElement.parentElement;
-            if (!element) throw new InsidiousError('O elemento não possui um pai.');
+            if (!element) throw new ManatsuError('O elemento não possui um pai.');
 
             if (typeof selector === 'string' && Validation.isSelectorValid(selector)) {
                 const children = element.querySelectorAll(selector);
