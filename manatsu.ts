@@ -1,4 +1,6 @@
 class Manatsu {
+    // Manatsu.prototype.createWithChildren() ?
+
     #element: string = 'div';
     #parent: Element | null = null;
     #options: Option | null = null;
@@ -106,10 +108,21 @@ class Manatsu {
     };
 
     /**
+     * Cria um elemento a partir do objeto Manatsu e o adiciona como primeiro filho do elemento pai indicado.
+     * @returns Elemento criado.
+     */
+    public createAsFirstChild(): HTMLElement {
+        const newElement = this.#createElement();
+        if (this.#parent) this.#parent.prepend(newElement);
+
+        return newElement;
+    };
+
+    /**
      * Cria um elemento a partir do objeto Manatsu e o insere antes ou depois do elemento indicado como referência.
      * Se o elemento de referência for `null`, o método tem o mesmo efeito de `create()`.
      * Além disso, se o objeto Manatsu possuir um pai, ele é trocado pelo pai do elemento de referência.
-     * @param type Define se o elemento deve ser inserido antes ou depois do elemento de referência.
+     * @param type Define onde o elemento deve ser inserido.
      * @returns O elemento criado a partir do objeto Manatsu.
      */
     #createThere(type: ElementPosition) {
@@ -283,30 +296,43 @@ class Manatsu {
     };
 
     /**
-     * Cria uma `checkbox` e associa uma `label` à ela.
-     * @param options - Um objeto contendo o ID da `checkbox` e um texto para a `label`.
-     * @param create - Determina se os objetos serão transformados ou não em elementos.
-     * @param parentElement - Um elemento-pai para associar aos objetos.
-     * @returns Array contendo a `checkbox` e sua `label`. Pode ser uma array de objetos Manatsu ou de elementos.
+     * Cria uma `checkbox` ou um `radio` e então associa uma `label`.
+     * @param type O tipo de `input` a ser criado.
+     * @param options Um objeto contendo detalhes sobre o `input`.
+     * @param create Determina se os itens devem ser transformados em elementos HTML.
+     * @param parentElement Elemento pai.
      */
-     public static createCheckbox(options: CheckboxOptions, create: boolean = false, parentElement?: Element): CreateCheckboxReturnValue {
-        if (!options.id || typeof options.id !== 'string') throw new ManatsuError('O id fornecido é inválido.');
-        if (!options.label || typeof options.label !== 'string') throw new ManatsuError('A descrição fornecida é inválida.');
+     static createLabeledInputElement(
+        type: InputElement,
+        options: InputAttributes,
+        create: boolean = false,
+        parentElement?: Element): InputReturnValue
+    {
+        if (typeof options.id !== 'string') throw new ManatsuError('O id fornecido é inválido.');
+        if (typeof options.label !== 'string') throw new ManatsuError('A descrição fornecida é inválida.');
         if (typeof create !== 'boolean') throw new ManatsuError('O argumento \"create\" precisa ser do tipo boolean.');
 
-        const newCheckbox = new Manatsu('input', { type: 'checkbox', id: options.id });
+        if (type === 'radio' && typeof options.name !== 'string') {
+            throw new ManatsuError('O nome fornecido é inválido.');
+        };
+
+        const newInput = new Manatsu('input', { type: type });
         const newLabel = new Manatsu('label', { for: options.id, text: options.label });
 
-        if (parentElement && parentElement instanceof Element) {
-            newCheckbox.parent = parentElement;
+        for (const [key, value] of Object.entries(options)) {
+            if (key === 'label') continue;
+            newInput.addOptions({ [key]: value }, true);
+        };
+
+        if (parentElement instanceof Element) {
+            newInput.parent = parentElement;
             newLabel.parent = parentElement;
         };
 
         if (create === true) {
-            return [(newCheckbox.create()) as HTMLInputElement, (newLabel.create()) as HTMLLabelElement];
-
+            return [(newInput.create()) as HTMLInputElement, (newLabel.create()) as HTMLLabelElement];
         } else {
-            return [newCheckbox, newLabel];
+            return [newInput, newLabel];
         };
     };
 
@@ -511,83 +537,6 @@ class Manatsu {
     };
 
     /**
-     * Gera um seletor CSS que identifica precisamente o elemento indicado.
-     * @param element Elemento a partir do qual gerar o seletor.
-     * @param attributes Indica se os atributos do elemento também devem ser inclusos no seletor.
-     * @param insensitive Indica se deve haver diferenciação entre maiúsculas e minúsculas no valor dos atributos.
-     * @returns Seletor CSS.
-     */
-    public static getSelector(element: Element, attributes: boolean = false, insensitive: boolean = false) {
-        if (!(element instanceof Element)) throw new ManatsuError('O elemento é inválido.');
-
-        const getElementSelectors = (el: Element): string => {
-            const nodeName = el.nodeName.toLowerCase();
-
-            let id = el.getAttribute('id') ?? '';
-            if (id) id = `#${id}`;
-
-            const classes = el.getAttribute('class')?.split(' ')
-                .filter((value) => value);
-
-            let classList: string = '';
-            if (Array.isArray(classes)) {
-                for (const name of classes) {
-                    classList = classList.concat(`.${name}`);
-                };
-            };
-
-            let attributeList: string = '';
-            if (attributes === true) {
-                for (const name of el.getAttributeNames()) {
-                    if (name === 'class' || name === 'id') continue;
-                    const value = el.getAttribute(name);
-
-                    const insensibility = insensitive === true ? ' i' : '';
-                    const attributeSelector = `[${name}="${value}"${insensibility}]`;
-                    attributeList = attributeList.concat(attributeSelector);
-                };
-            };
-
-            let selector = `${nodeName}${id}${classList}${attributeList}`;
-            if (nodeName === 'html') return selector;
-
-            const previousSiblingName = el.previousElementSibling?.nodeName.toLowerCase();
-            if (previousSiblingName) selector = `${previousSiblingName} + ${selector}`;
-
-            const requiredOrOptional = ['input', 'select', 'textarea'];
-            if (requiredOrOptional.includes(nodeName)) {
-                switch (el.hasAttribute('required')) {
-                    case true:
-                        selector = selector.concat(':required');
-                        break;
-                    case false:
-                        selector = selector.concat(':optional');
-                        break;
-                };
-            };
-
-            const parent = el.parentElement;
-            // Verifica se o elemento é o primeiro entre seus possíveis irmãos.
-            if (parent?.firstElementChild === el) selector = selector.concat(':first-child');
-            // Verifica se ele é o último.
-            if (!el.nextElementSibling) selector = selector.concat(':last-child');
-
-            if (parent) {
-                // Verifica se é o único de seu tipo.
-                const sameTypeSiblings = parent.querySelectorAll(nodeName);
-                if (sameTypeSiblings.length === 1) selector = selector.concat(':only-of-type');
-
-                // Se o elemento possuir um pai, obtem também seus seletores.
-                selector = `${getElementSelectors(parent)} ${selector}`;
-            };
-            
-            return selector;
-        };
-
-        return getElementSelectors(element);
-    };
-
-    /**
      * Remove um ou mais elementos do documento.
      * Ao contrário de `Node.removeChild()`, não é necessário especificar o pai.
      * Além disso, quando mais de um elemento é fornecido, não é necessário que todos tenham o mesmo pai.
@@ -613,28 +562,43 @@ class Manatsu {
     };
 
     /** 
-     * Remove todos os filhos do elemento indicado. 
-     * Caso um seletor CSS seja fornecido, remove apenas os filhos que o satisfaçam.
-     * @param parentElement
-     * @param selector - Seletor CSS identificando quais elementos-filho serão alvo.
+     * Remove todos os filhos ou irmãos do elemento indicado. 
+     * Caso um seletor CSS seja fornecido, remove apenas os elementos que o satisfaçam.
+     * @param type Indica o tipo de elemento que deve ser removido.
      */
-    public static removeChildren(parentElement: Element, selector?: string | string[]) {
-        if (!(parentElement instanceof Element)) throw new ManatsuError('O elemento fornecido é inválido.');
+    static #removeElements(type: ElementHierarchy) {
+        return function(referenceElement: Element, selector?: string | string[]) {
+            if (!(referenceElement instanceof Element)) throw new ManatsuError('O elemento é inválido.');
  
-        if (typeof selector === 'string' && Validation.isSelectorValid(selector)) {
-            const children = parentElement.querySelectorAll(selector);
-            children.forEach((child: Element) => parentElement.removeChild(child));
+            // Muda o comportamento da função de acordo com o tipo chamado.
+            const element = type === 'child' ? referenceElement : referenceElement.parentElement;
+            if (!element) throw new InsidiousError('O elemento não possui um pai.');
 
-        } else if (Array.isArray(selector)) {
-            for (const key of selector) {
-                if (typeof key !== 'string' || !Validation.isSelectorValid(key)) continue;
+            if (typeof selector === 'string' && Validation.isSelectorValid(selector)) {
+                const children = element.querySelectorAll(selector);
+                children.forEach((child: Element) => {
+                    if (type === 'sibling' && child === referenceElement) return;
+                    child.parentElement?.removeChild(child);
+                });
 
-                const children = parentElement.querySelectorAll(key);
-                children.forEach((child: Element) => parentElement.removeChild(child));
+            } else if (Array.isArray(selector)) {
+                for (const key of selector) {
+                    if (typeof key !== 'string' || !Validation.isSelectorValid(key)) continue;
+
+                    const children = element.querySelectorAll(key);
+                    children.forEach((child: Element) => {
+                        if (type === 'sibling' && child === referenceElement) return;
+                        child.parentElement?.removeChild(child);
+                    });
+                };
+
+            } else if (type === 'child') {
+                while (element.firstChild) element.removeChild(element.firstChild);
+
+            } else if (type === 'sibling') {
+                while (referenceElement.previousElementSibling) element.removeChild(referenceElement.previousElementSibling);
+                while (referenceElement.nextElementSibling) element.removeChild(referenceElement.nextElementSibling);
             };
-
-        } else {
-            while (parentElement.firstChild) parentElement.removeChild(parentElement.firstChild);
         };
     };
 
@@ -697,8 +661,6 @@ class Manatsu {
         };
     };
 
-    ////// DOM
-    // Manatsu.prototype.createWithChildren() ?
     get element() { return this.#element };
     get parent() { return this.#parent };
     get options() { return this.#options };
@@ -746,16 +708,16 @@ class Manatsu {
         if (parentElement instanceof Element) {
             this.#parent = parentElement;
         } else {
-            throw new ManatsuError('O elemento fornecido é inválido.');
+            throw new ManatsuError('O elemento é inválido.');
         };
     };
 
-    // É necessário trocar para um Proxy.
+    // É necessário trocar por um Proxy.
     set options(item: Option | null) {
         if (Validation.isOptionValid(item)) {
             this.#options = item;
         } else {
-            throw new ManatsuError('O item fornecido é inválido.');
+            throw new ManatsuError('O item é inválido.');
         };
     };
 
@@ -763,6 +725,9 @@ class Manatsu {
     get createBefore() { return this.#createThere('before') };
     get createInsideThenAfter() { return this.#createInsideThen('after') };
     get createInsideThenBefore() { return this.#createInsideThen('before') };
+
+    static get removeChildren() { return this.#removeElements('child') };
+    static get removeSiblings() { return this.#removeElements('sibling') };
 };
 
 class Validation {
@@ -809,7 +774,10 @@ class ManatsuError extends Error {
 HTMLElement.prototype.appendManatsu = function(...args: HTMLConstructorArgs): HTMLElement {
     // Se for houver um objeto Manatsu entre os argumentos, ele é usado e todos os outros são ignorados.
     for (const arg of args) {
-        if (arg instanceof Manatsu) return arg.create();
+        if (arg instanceof Manatsu) {
+            arg.parent = this;
+            return arg.create();
+        };
     };
 
     const newElement = new Manatsu(...args as ConstructorArgs);
