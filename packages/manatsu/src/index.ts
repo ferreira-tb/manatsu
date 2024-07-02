@@ -62,3 +62,11 @@ export {
   useWindowHeight,
   useWindowWidth
 } from '@manatsu/composables/src/index.ts';
+
+declare global {
+  interface Window {
+    readonly MANATSU: {
+      dev: boolean;
+    };
+  }
+}

@@ -7,6 +7,8 @@ pub use log::{Log, VersionSnapshot};
 
 use error::Result;
 use log::LogCache;
+use serde::{Deserialize, Serialize};
+use serde_json::json;
 use std::sync::Mutex;
 use tauri::plugin::{Builder, TauriPlugin};
 use tauri::{AppHandle, Manager, RunEvent, Runtime};
@@ -23,8 +25,24 @@ impl<R: Runtime> AppHandleExt for AppHandle<R> {
   }
 }
 
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct Manatsu {
+  dev: bool,
+}
+
+impl Default for Manatsu {
+  fn default() -> Self {
+    Self { dev: tauri::is_dev() }
+  }
+}
+
 pub fn init<R: Runtime>() -> TauriPlugin<R> {
+  let manatsu = json!(Manatsu::default());
+  let script = format!("(()=>{{globalThis.MANATSU={manatsu}}})();",);
+
   Builder::new("manatsu")
+    .js_init_script(script)
     .invoke_handler(tauri::generate_handler![
       command::is_dev,
       command::manatsu_version,
