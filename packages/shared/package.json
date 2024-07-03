@@ -39,11 +39,11 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@tb-dev/utility-types": "^1.4.3",
-    "@tb-dev/utils": "^1.8.5"
+    "@tb-dev/utility-types": "^1.4.4",
+    "@tb-dev/utils": "^1.8.6"
   },
   "devDependencies": {
-    "vite": "^5.3.2"
+    "vite": "^5.3.3"
   },
   "peerDependencies": {
     "@vueuse/core": "^10.11.0",
