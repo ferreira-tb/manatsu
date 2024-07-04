@@ -45,6 +45,6 @@
     "vite-plugin-dts": "^3.9.1",
     "vue": "^3.4.31",
     "vue-router": "^4.4.0",
-    "vue-tsc": "^2.0.24"
+    "vue-tsc": "^2.0.26"
   }
 }
