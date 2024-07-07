@@ -1,6 +1,6 @@
 {
   "name": "manatsu",
-  "version": "0.12.3",
+  "version": "0.13.0",
   "description": "Vue utilities for Tauri apps",
   "license": "MIT",
   "private": false,

@@ -30,10 +30,9 @@ export {
 export {
   type UseInvokeOptions,
   type UseInvokeReturn,
+  computedAsync,
   invokeOnKeyDown,
   invokeOnKeyStroke,
-  navigateOnKeyDown,
-  navigateOnKeyStroke,
   onAltKeyDown,
   onAltKeyStroke,
   onContextMenu,

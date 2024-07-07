@@ -1,8 +1,7 @@
 import { toValue } from 'vue';
 import { noop } from '@tb-dev/utils';
+import { execute, invoke } from './utils';
 import { handleError } from '@manatsu/shared';
-import type { RouteLocationRaw } from 'vue-router';
-import { execute, invoke, navigate } from './utils';
 import type { Nullish } from '@tb-dev/utility-types';
 import type { InvokeArgs } from '@tauri-apps/api/core';
 import { type KeyFilter, onKeyStroke as original, tryOnScopeDispose } from '@vueuse/core';
@@ -136,22 +135,6 @@ export function invokeOnKeyDown(
   options?: Omit<OnKeyStrokeOptions, 'eventName'>
 ) {
   return onKeyDown(key, invoke(command, args), options);
-}
-
-export function navigateOnKeyStroke(
-  key: KeyFilter,
-  to: RouteLocationRaw,
-  options?: OnKeyStrokeOptions
-) {
-  return onKeyStroke(key, navigate(to), options);
-}
-
-export function navigateOnKeyDown(
-  key: KeyFilter,
-  to: RouteLocationRaw,
-  options?: Omit<OnKeyStrokeOptions, 'eventName'>
-) {
-  return onKeyDown(key, navigate(to), options);
 }
 
 export function preventKeyStroke(key: KeyFilter, options?: PreventKeyStrokeOptions) {
