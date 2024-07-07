@@ -1,10 +1,10 @@
 {
   "name": "@manatsu/composables",
-  "version": "0.12.2",
+  "version": "0.12.3",
   "description": "Manatsu composables",
   "license": "MIT",
   "private": false,
-  "packageManager": "pnpm@9.4.0",
+  "packageManager": "pnpm@9.5.0",
   "homepage": "https://github.com/ferreira-tb/manatsu",
   "repository": {
     "type": "git",

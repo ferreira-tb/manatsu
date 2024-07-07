@@ -1,6 +1,6 @@
 [package]
 name = "tauri-plugin-manatsu"
-version = "0.12.2"
+version = "0.12.3"
 description = "Manatsu plugin for Tauri"
 links = "tauri-plugin-manatsu"
 keywords = ["manatsu", "plugin", "tauri", "tauri-plugin", "vue"]
@@ -29,6 +29,10 @@ workspace = true
 [package.categories]
 workspace = true
 
+[package.metadata.docs.rs]
+rustc-args = ["--cfg", "docsrs"]
+rustdoc-args = ["--cfg", "docsrs"]
+
 [lints]
 workspace = true
 
@@ -45,7 +49,7 @@ default-features = false
 
 [dependencies.serde]
 features = ["derive"]
-version = "1.0.203"
+version = "1.0.204"
 
 [dependencies.tauri]
 version = "2.0.0-beta.23"

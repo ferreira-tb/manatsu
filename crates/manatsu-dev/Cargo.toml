@@ -4,7 +4,7 @@ path = "src/main.rs"
 
 [package]
 name = "manatsu-dev"
-version = "0.12.2"
+version = "0.12.3"
 publish = false
 
 [package.homepage]
@@ -46,7 +46,7 @@ version = "4.5.8"
 features = ["derive"]
 
 [dependencies.serde]
-version = "1.0.203"
+version = "1.0.204"
 features = ["derive"]
 
 [dependencies.serde_json]
