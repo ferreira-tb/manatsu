@@ -44,7 +44,7 @@ thiserror = "1.0.61"
 tracing = "0.1.40"
 
 [dependencies.sysinfo]
-version = "0.30.12"
+version = "0.30.13"
 default-features = false
 
 [dependencies.serde]
