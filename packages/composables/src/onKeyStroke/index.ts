@@ -1,8 +1,7 @@
 import { toValue } from 'vue';
-import { noop } from '@tb-dev/utils';
 import { execute, invoke } from './utils';
 import { handleError } from '@manatsu/shared';
-import type { Nullish } from '@tb-dev/utility-types';
+import { type Nullish, noop } from '@tb-dev/utils';
 import type { InvokeArgs } from '@tauri-apps/api/core';
 import { type KeyFilter, onKeyStroke as original, tryOnScopeDispose } from '@vueuse/core';
 import type { KeyStrokeEventHandler, OnKeyStrokeOptions, PreventKeyStrokeOptions } from './types';

@@ -13,12 +13,9 @@ importers:
       '@tb-dev/eslint-config':
         specifier: ^3.8.8
         version: 3.8.8(eslint@8.57.0)(typescript@5.5.3)(vitest@1.6.0(@types/node@20.14.10)(sass@1.77.4))
-      '@tb-dev/utility-types':
-        specifier: ^1.4.4
-        version: 1.4.4
       '@tb-dev/utils':
-        specifier: ^1.8.6
-        version: 1.8.6
+        specifier: ^2.0.0
+        version: 2.0.0
       '@types/node':
         specifier: ^20.14.10
         version: 20.14.10
@@ -73,12 +70,9 @@ importers:
       '@tauri-apps/api':
         specifier: ^2.0.0-beta.14
         version: 2.0.0-beta.14
-      '@tb-dev/utility-types':
-        specifier: ^1.4.4
-        version: 1.4.4
       '@tb-dev/utils':
-        specifier: ^1.8.6
-        version: 1.8.6
+        specifier: ^2.0.0
+        version: 2.0.0
       '@vueuse/core':
         specifier: ^10.11.0
         version: 10.11.0(vue@3.4.31(typescript@5.5.3))
@@ -113,12 +107,9 @@ importers:
       '@tauri-apps/api':
         specifier: ^2.0.0-beta.14
         version: 2.0.0-beta.14
-      '@tb-dev/utility-types':
-        specifier: ^1.4.4
-        version: 1.4.4
       '@tb-dev/utils':
-        specifier: ^1.8.6
-        version: 1.8.6
+        specifier: ^2.0.0
+        version: 2.0.0
       '@vueuse/core':
         specifier: ^10.11.0
         version: 10.11.0(vue@3.4.31(typescript@5.5.3))
@@ -135,12 +126,9 @@ importers:
 
   packages/shared:
     dependencies:
-      '@tb-dev/utility-types':
-        specifier: ^1.4.4
-        version: 1.4.4
       '@tb-dev/utils':
-        specifier: ^1.8.6
-        version: 1.8.6
+        specifier: ^2.0.0
+        version: 2.0.0
       '@vueuse/core':
         specifier: ^10.11.0
         version: 10.11.0(vue@3.4.31(typescript@5.5.3))
@@ -163,12 +151,9 @@ importers:
       '@tauri-apps/api':
         specifier: ^2.0.0-beta.14
         version: 2.0.0-beta.14
-      '@tb-dev/utility-types':
-        specifier: ^1.4.4
-        version: 1.4.4
       '@tb-dev/utils':
-        specifier: ^1.8.6
-        version: 1.8.6
+        specifier: ^2.0.0
+        version: 2.0.0
       vue:
         specifier: ^3.4.31
         version: 3.4.31(typescript@5.5.3)
@@ -188,12 +173,9 @@ importers:
       '@tauri-apps/api':
         specifier: ^2.0.0-beta.14
         version: 2.0.0-beta.14
-      '@tb-dev/utility-types':
-        specifier: ^1.4.4
-        version: 1.4.4
       '@tb-dev/utils':
-        specifier: ^1.8.6
-        version: 1.8.6
+        specifier: ^2.0.0
+        version: 2.0.0
       '@vueuse/core':
         specifier: ^10.11.0
         version: 10.11.0(vue@3.4.31(typescript@5.5.3))
@@ -788,16 +770,10 @@ packages:
       eslint: ^8.57.0
       typescript: ^5.4.0
 
-  '@tb-dev/utility-types@1.4.4':
+  '@tb-dev/utils@2.0.0':
     resolution:
       {
-        integrity: sha512-//mGexdOfuN4cwQtY+5aZIQGAxhHkRoTzNjfSk4a8AHBY19vNvCwnX9VhAfDgFfZwiwTcuYXhPYZPhMyr1Vnpg==
-      }
-
-  '@tb-dev/utils@1.8.6':
-    resolution:
-      {
-        integrity: sha512-9N/QthpM0dywVEjnurFKa8wdgPciwtWn0fPgFGWUINoAxYW47l6pRQIId+8Xcqqrz/Gfy1Ehxb/AcPdUnbo++g==
+        integrity: sha512-7Cya4F9F3wfDfheO671WlzX+nL5EGZxJQRigNIlvRiz+vg855sEc525h6QnR2dE/krGCpOan9CtyiYEo+0sMYQ==
       }
 
   '@types/argparse@1.0.38':
@@ -3696,11 +3672,7 @@ snapshots:
       - svelte-eslint-parser
       - vitest
 
-  '@tb-dev/utility-types@1.4.4': {}
-
-  '@tb-dev/utils@1.8.6':
-    dependencies:
-      '@tb-dev/utility-types': 1.4.4
+  '@tb-dev/utils@2.0.0': {}
 
   '@types/argparse@1.0.38': {}
 

@@ -1,6 +1,5 @@
 import type { App } from 'vue';
-import { panic } from '@tb-dev/utils';
-import type { Nullish } from '@tb-dev/utility-types';
+import { type Nullish, panic } from '@tb-dev/utils';
 
 export type ErrorHandler = (this: App, err: unknown) => void;
 

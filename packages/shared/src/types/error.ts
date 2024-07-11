@@ -1,4 +1,4 @@
-import type { Nullish } from '@tb-dev/utility-types';
+import type { Nullish } from '@tb-dev/utils';
 
 export interface VersionSnapshot {
   readonly app?: Nullish<string>;

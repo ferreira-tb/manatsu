@@ -1,6 +1,6 @@
 import type { App, Ref } from 'vue';
 import type { InvokeArgs } from '@tauri-apps/api/core';
-import type { MaybePromise, Nullish } from '@tb-dev/utility-types';
+import type { MaybePromise, Nullish } from '@tb-dev/utils';
 import type { ErrorHandler, MaybeNullishRef } from '@manatsu/shared';
 
 export interface UseInvokeOptions<Data> {

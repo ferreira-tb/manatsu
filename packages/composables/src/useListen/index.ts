@@ -1,6 +1,6 @@
+import type { Nullish } from '@tb-dev/utils';
 import { handleError } from '@manatsu/shared';
 import { type MaybeRefOrGetter, toRef } from 'vue';
-import type { Nullish } from '@tb-dev/utility-types';
 import { tryOnScopeDispose, watchImmediate } from '@vueuse/core';
 import { type EventCallback, type EventName, type Options, listen } from '@tauri-apps/api/event';
 

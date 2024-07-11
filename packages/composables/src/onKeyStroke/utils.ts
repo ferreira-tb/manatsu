@@ -1,4 +1,4 @@
-import type { Nullish } from '@tb-dev/utility-types';
+import type { Nullish } from '@tb-dev/utils';
 import type { KeyStrokeEventHandler } from './types';
 import { type InvokeArgs, invoke as tauriInvoke } from '@tauri-apps/api/core';
 

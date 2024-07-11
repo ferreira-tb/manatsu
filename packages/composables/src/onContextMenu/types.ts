@@ -1,5 +1,5 @@
+import type { MaybePromise } from '@tb-dev/utils';
 import type { MaybeNullishRef } from '@manatsu/shared';
-import type { MaybePromise } from '@tb-dev/utility-types';
 
 export type ContextMenuEventHandler = (e: MouseEvent) => MaybePromise<void>;
 
