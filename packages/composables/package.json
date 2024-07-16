@@ -51,7 +51,7 @@
   },
   "devDependencies": {
     "@manatsu/vue-plugin": "workspace:*",
-    "vite": "^5.3.3"
+    "vite": "^5.3.4"
   },
   "peerDependencies": {
     "@tauri-apps/api": "^2.0.0-beta.14",
