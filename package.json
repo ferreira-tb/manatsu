@@ -28,7 +28,7 @@
     "update": "miho update major -t"
   },
   "devDependencies": {
-    "@tauri-apps/api": "^2.0.0-beta.14",
+    "@tauri-apps/api": "^2.0.0-beta.15",
     "@tb-dev/eslint-config": "^3.8.10",
     "@tb-dev/utils": "^2.0.1",
     "@types/node": "^20.14.11",
