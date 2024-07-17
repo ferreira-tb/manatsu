@@ -15,8 +15,8 @@ importers:
         specifier: ^3.8.10
         version: 3.8.10(eslint@8.57.0)(typescript@5.5.3)(vitest@1.6.0(@types/node@20.14.11)(sass@1.77.4))
       '@tb-dev/utils':
-        specifier: ^2.0.0
-        version: 2.0.0
+        specifier: ^2.0.1
+        version: 2.0.1
       '@types/node':
         specifier: ^20.14.11
         version: 20.14.11
@@ -72,8 +72,8 @@ importers:
         specifier: ^2.0.0-beta.14
         version: 2.0.0-beta.14
       '@tb-dev/utils':
-        specifier: ^2.0.0
-        version: 2.0.0
+        specifier: ^2.0.1
+        version: 2.0.1
       '@vueuse/core':
         specifier: ^10.11.0
         version: 10.11.0(vue@3.4.31(typescript@5.5.3))
@@ -109,8 +109,8 @@ importers:
         specifier: ^2.0.0-beta.14
         version: 2.0.0-beta.14
       '@tb-dev/utils':
-        specifier: ^2.0.0
-        version: 2.0.0
+        specifier: ^2.0.1
+        version: 2.0.1
       '@vueuse/core':
         specifier: ^10.11.0
         version: 10.11.0(vue@3.4.31(typescript@5.5.3))
@@ -128,8 +128,8 @@ importers:
   packages/shared:
     dependencies:
       '@tb-dev/utils':
-        specifier: ^2.0.0
-        version: 2.0.0
+        specifier: ^2.0.1
+        version: 2.0.1
       '@vueuse/core':
         specifier: ^10.11.0
         version: 10.11.0(vue@3.4.31(typescript@5.5.3))
@@ -153,8 +153,8 @@ importers:
         specifier: ^2.0.0-beta.14
         version: 2.0.0-beta.14
       '@tb-dev/utils':
-        specifier: ^2.0.0
-        version: 2.0.0
+        specifier: ^2.0.1
+        version: 2.0.1
       vue:
         specifier: ^3.4.31
         version: 3.4.31(typescript@5.5.3)
@@ -175,8 +175,8 @@ importers:
         specifier: ^2.0.0-beta.14
         version: 2.0.0-beta.14
       '@tb-dev/utils':
-        specifier: ^2.0.0
-        version: 2.0.0
+        specifier: ^2.0.1
+        version: 2.0.1
       '@vueuse/core':
         specifier: ^10.11.0
         version: 10.11.0(vue@3.4.31(typescript@5.5.3))
@@ -556,8 +556,8 @@ packages:
       eslint: ^8.57.0
       typescript: ^5.4.0
 
-  '@tb-dev/utils@2.0.0':
-    resolution: {integrity: sha512-7Cya4F9F3wfDfheO671WlzX+nL5EGZxJQRigNIlvRiz+vg855sEc525h6QnR2dE/krGCpOan9CtyiYEo+0sMYQ==}
+  '@tb-dev/utils@2.0.1':
+    resolution: {integrity: sha512-SEC+kTsl5DVEhwjhb15kRdVDPBs4vItisRMZCh6lOKzy1g1AdItZqqu2mLD0RCkvWeR4/CR3YLvKCK2Fzw6k6Q==}
 
   '@types/argparse@1.0.38':
     resolution: {integrity: sha512-ebDJ9b0e702Yr7pWgB0jzm+CX4Srzz8RcXtLJDJB+BSccqMa36uyH/zUsSYao5+BD1ytv3k3rPYCq4mAE1hsXA==}
@@ -2366,7 +2366,7 @@ snapshots:
       - svelte-eslint-parser
       - vitest
 
-  '@tb-dev/utils@2.0.0': {}
+  '@tb-dev/utils@2.0.1': {}
 
   '@types/argparse@1.0.38': {}
 
