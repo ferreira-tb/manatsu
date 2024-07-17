@@ -39,7 +39,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@tb-dev/utils": "^2.0.0"
+    "@tb-dev/utils": "^2.0.1"
   },
   "devDependencies": {
     "vite": "^5.3.4"
