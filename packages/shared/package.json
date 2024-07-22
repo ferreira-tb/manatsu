@@ -1,10 +1,10 @@
 {
   "name": "@manatsu/shared",
   "description": "Utilities for Manatsu",
-  "version": "0.13.1",
+  "version": "0.14.0",
   "license": "MIT",
   "private": false,
-  "packageManager": "pnpm@9.5.0",
+  "packageManager": "pnpm@9.6.0",
   "homepage": "https://github.com/ferreira-tb/manatsu",
   "repository": {
     "type": "git",
@@ -46,7 +46,7 @@
   },
   "peerDependencies": {
     "@vueuse/core": "^10.11.0",
-    "vue": "^3.4.31",
+    "vue": "^3.4.33",
     "vue-router": "^4.4.0"
   },
   "engines": {

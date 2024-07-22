@@ -1,9 +1,9 @@
 {
   "name": "@manatsu/monorepo",
-  "version": "0.13.1",
+  "version": "0.14.0",
   "type": "module",
   "private": true,
-  "packageManager": "pnpm@9.5.0",
+  "packageManager": "pnpm@9.6.0",
   "lint-staged": {
     "*.{?(c|m)@(j|t)s,?(s)css,vue,md,json,yaml}": "prettier --write"
   },
@@ -28,22 +28,22 @@
     "update": "miho update major -t"
   },
   "devDependencies": {
-    "@tauri-apps/api": "^2.0.0-beta.14",
-    "@tb-dev/eslint-config": "^3.8.10",
+    "@tauri-apps/api": "^2.0.0-beta.15",
+    "@tb-dev/eslint-config": "^4.0.0",
     "@tb-dev/utils": "^2.0.1",
     "@types/node": "^20.14.11",
     "@vitejs/plugin-vue": "^5.0.5",
     "@vueuse/core": "^10.11.0",
     "eslint": "^8.57.0",
-    "husky": "^9.0.11",
+    "husky": "^9.1.1",
     "lint-staged": "^15.2.7",
     "prettier": "^3.3.3",
     "tslib": "^2.6.3",
     "typescript": "^5.5.3",
     "vite": "^5.3.4",
     "vite-plugin-dts": "^3.9.1",
-    "vue": "^3.4.31",
+    "vue": "^3.4.33",
     "vue-router": "^4.4.0",
-    "vue-tsc": "^2.0.26"
+    "vue-tsc": "^2.0.28"
   }
 }

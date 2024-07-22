@@ -167,6 +167,7 @@ impl Log {
     cache.push(self);
 
     if cache.len() > MAX_CACHE_SIZE {
+      drop(cache);
       Log::write_to_disk(app)?;
     }
 

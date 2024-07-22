@@ -1,6 +1,6 @@
 [package]
 name = "tauri-plugin-manatsu"
-version = "0.13.1"
+version = "0.14.0"
 description = "Manatsu plugin for Tauri"
 links = "tauri-plugin-manatsu"
 keywords = ["manatsu", "plugin", "tauri", "tauri-plugin", "vue"]
@@ -52,12 +52,12 @@ features = ["derive"]
 version = "1.0.204"
 
 [dependencies.tauri]
-version = "2.0.0-beta.23"
+version = "2.0.0-beta.24"
 
 [dependencies.tokio]
 version = "1.38.1"
 features = ["fs"]
 
 [build-dependencies.tauri-plugin]
-version = "2.0.0-beta.18"
+version = "2.0.0-beta.19"
 features = ["build"]
