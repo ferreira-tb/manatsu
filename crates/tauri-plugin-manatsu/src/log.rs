@@ -20,13 +20,13 @@ pub mod date {
   }
 }
 
-pub const MAX_CACHE_SIZE: usize = 20;
+pub(crate) const MAX_CACHE_SIZE: usize = 20;
 
-static VUE_VERSION: OnceLock<String> = OnceLock::new();
+pub(crate) static VUE_VERSION: OnceLock<String> = OnceLock::new();
 
 pub(crate) struct LogCache(pub(crate) Mutex<Vec<Log>>);
 
-#[derive(Default, Deserialize, Serialize, PartialEq, Eq)]
+#[derive(Debug, Deserialize, Serialize, PartialEq, Eq)]
 pub struct VersionSnapshot {
   pub app: Option<String>,
   pub manatsu: Option<String>,
@@ -38,14 +38,7 @@ pub struct VersionSnapshot {
 
 impl VersionSnapshot {
   pub fn new() -> Self {
-    Self {
-      app: None,
-      manatsu: Some(Self::manatsu()),
-      tauri: Some(Self::tauri()),
-      os: System::long_os_version(),
-      webview: Self::webview(),
-      vue: Self::vue(),
-    }
+    Self::default()
   }
 
   pub fn manatsu() -> String {
@@ -69,7 +62,20 @@ impl VersionSnapshot {
   }
 }
 
-#[derive(Deserialize, Serialize, PartialEq, Eq)]
+impl Default for VersionSnapshot {
+  fn default() -> Self {
+    Self {
+      app: None,
+      manatsu: Some(Self::manatsu()),
+      tauri: Some(Self::tauri()),
+      os: Self::os(),
+      webview: Self::webview(),
+      vue: Self::vue(),
+    }
+  }
+}
+
+#[derive(Debug, Deserialize, Serialize, PartialEq, Eq)]
 pub struct Log {
   pub name: String,
   pub message: String,
@@ -84,7 +90,7 @@ impl Log {
       name: name.into(),
       message: message.into(),
       stack: None,
-      version: VersionSnapshot::new(),
+      version: VersionSnapshot::default(),
       timestamp: date::now().into(),
     }
   }
@@ -167,7 +173,9 @@ impl Log {
     cache.push(self);
 
     if cache.len() > MAX_CACHE_SIZE {
+      // `Log::write_to_disk` must lock the cache, so we need to drop it here.
       drop(cache);
+
       Log::write_to_disk(app)?;
     }
 

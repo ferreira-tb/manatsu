@@ -9,7 +9,7 @@ use command::Command;
 #[command(name = "manatsu")]
 #[command(version, about, long_about = None)]
 enum Cli {
-  /// Easily create a new project.
+  /// Create a new Tauri project.
   Create(command::Create),
 }
 

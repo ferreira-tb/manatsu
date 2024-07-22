@@ -1,5 +1,5 @@
 import { getCurrentApp, getGlobalManatsu } from './global';
-import { type InjectionKey, defineComponent, inject } from 'vue';
+import { defineComponent, inject, type InjectionKey } from 'vue';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const EmptyComponent = defineComponent({
@@ -8,7 +8,7 @@ export const EmptyComponent = defineComponent({
   }
 });
 
-/** Same as `inject`, but throws an error if the value was not provided. */
+/** Like `inject`, but throws an error if the value was not provided. */
 export function injectStrict<T>(key: InjectionKey<T> | string): T {
   const app = getCurrentApp();
   const value = app.runWithContext(() => inject(key));

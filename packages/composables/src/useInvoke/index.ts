@@ -2,7 +2,7 @@ import { invoke } from '@tauri-apps/api/core';
 import { getCurrentApp, handleError } from '@manatsu/shared';
 import type { UseInvokeOptions, UseInvokeReturn } from './types';
 import { tryOnScopeDispose, watchTriggerable } from '@vueuse/core';
-import { type MaybeRefOrGetter, type Ref, readonly, ref, shallowRef, toRef, toValue } from 'vue';
+import { type MaybeRefOrGetter, readonly, type Ref, ref, shallowRef, toRef, toValue } from 'vue';
 
 export type { UseInvokeOptions, UseInvokeReturn } from './types';
 

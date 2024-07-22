@@ -1,5 +1,5 @@
 import type { App, Plugin } from 'vue';
-import { saveLog } from '@manatsu/tauri-plugin/src/index.ts';
+import { saveLog, setDefaultVueVersion } from '@manatsu/tauri-plugin/src/index.ts';
 import { type ErrorHandler, handleError, setGlobalManatsu } from '@manatsu/shared';
 
 export interface ManatsuOptions {
@@ -12,6 +12,8 @@ export function createManatsu(options: ManatsuOptions = {}): Plugin {
       const errorHandler = (options.errorHandler ?? defaultErrorHandler).bind(app);
       app.config.errorHandler = (err) => handleError(err);
       setGlobalManatsu({ app, errorHandler });
+
+      setDefaultVueVersion().catch(errorHandler);
     }
   };
 

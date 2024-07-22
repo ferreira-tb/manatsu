@@ -1,11 +1,10 @@
 export {
-  type ManatsuOptions,
   createManatsu,
-  defaultErrorHandler
+  defaultErrorHandler,
+  type ManatsuOptions
 } from '@manatsu/vue-plugin/src/index.ts';
 
 export {
-  Command,
   createVersionSnapshot,
   getManatsuVersion,
   isDev,
@@ -15,21 +14,19 @@ export {
 export {
   type ComputedSymbol,
   EmptyComponent,
+  getCurrentApp,
+  handleError,
+  injectStrict,
   type Log,
   type MaybeNullishRef,
   type RefSymbol,
   type ShallowRefSymbol,
   type VersionSnapshot,
   type WritableRefSymbol,
-  type WritableShallowRefSymbol,
-  getCurrentApp,
-  handleError,
-  injectStrict
+  type WritableShallowRefSymbol
 } from '@manatsu/shared';
 
 export {
-  type UseInvokeOptions,
-  type UseInvokeReturn,
   computedAsync,
   invokeOnKeyDown,
   invokeOnKeyStroke,
@@ -56,6 +53,8 @@ export {
   useElementSize,
   useHeight,
   useInvoke,
+  type UseInvokeOptions,
+  type UseInvokeReturn,
   useListen,
   useWidth,
   useWindowHeight,

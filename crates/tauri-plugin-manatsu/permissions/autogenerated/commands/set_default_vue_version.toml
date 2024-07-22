@@ -1,0 +1,13 @@
+# Automatically generated - DO NOT EDIT!
+
+"$schema" = "../../schemas/schema.json"
+
+[[permission]]
+identifier = "allow-set-default-vue-version"
+description = "Enables the set_default_vue_version command without any pre-configured scope."
+commands.allow = ["set_default_vue_version"]
+
+[[permission]]
+identifier = "deny-set-default-vue-version"
+description = "Denies the set_default_vue_version command without any pre-configured scope."
+commands.deny = ["set_default_vue_version"]

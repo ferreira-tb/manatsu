@@ -5,6 +5,7 @@ Default permissions for the Manatsu plugin
 - `allow-is-dev`
 - `allow-manatsu-version`
 - `allow-save-log`
+- `allow-set-default-vue-version`
 - `allow-version-snapshot`
 
 ### Permission Table 
@@ -90,6 +91,32 @@ Enables the save_log command without any pre-configured scope.
 <td>
 
 Denies the save_log command without any pre-configured scope.
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+`manatsu:allow-set-default-vue-version`
+
+</td>
+<td>
+
+Enables the set_default_vue_version command without any pre-configured scope.
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+`manatsu:deny-set-default-vue-version`
+
+</td>
+<td>
+
+Denies the set_default_vue_version command without any pre-configured scope.
 
 </td>
 </tr>

@@ -47,6 +47,7 @@ pub fn init<R: Runtime>() -> TauriPlugin<R> {
       command::is_dev,
       command::manatsu_version,
       command::save_log,
+      command::set_default_vue_version,
       command::version_snapshot,
     ])
     .setup(|app, _api| {

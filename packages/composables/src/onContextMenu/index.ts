@@ -1,7 +1,7 @@
 import { toRef, toValue } from 'vue';
 import { noop } from '@tb-dev/utils';
 import { tryOnScopeDispose, watchImmediate } from '@vueuse/core';
-import { type MaybeNullishRef, handleError } from '@manatsu/shared';
+import { handleError, type MaybeNullishRef } from '@manatsu/shared';
 import type { ContextMenuEventHandler, OnContextMenuOptions } from './types';
 
 export function onContextMenu(

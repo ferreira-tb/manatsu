@@ -337,6 +337,20 @@
           ]
         },
         {
+          "description": "allow-set-default-vue-version -> Enables the set_default_vue_version command without any pre-configured scope.",
+          "type": "string",
+          "enum": [
+            "allow-set-default-vue-version"
+          ]
+        },
+        {
+          "description": "deny-set-default-vue-version -> Denies the set_default_vue_version command without any pre-configured scope.",
+          "type": "string",
+          "enum": [
+            "deny-set-default-vue-version"
+          ]
+        },
+        {
           "description": "allow-version-snapshot -> Enables the version_snapshot command without any pre-configured scope.",
           "type": "string",
           "enum": [

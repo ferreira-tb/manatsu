@@ -2,7 +2,7 @@ import type { Nullish } from '@tb-dev/utils';
 import { handleError } from '@manatsu/shared';
 import { type MaybeRefOrGetter, toRef } from 'vue';
 import { tryOnScopeDispose, watchImmediate } from '@vueuse/core';
-import { type EventCallback, type EventName, type Options, listen } from '@tauri-apps/api/event';
+import { type EventCallback, type EventName, listen, type Options } from '@tauri-apps/api/event';
 
 export function useListen<T = unknown>(
   event: MaybeRefOrGetter<EventName>,
