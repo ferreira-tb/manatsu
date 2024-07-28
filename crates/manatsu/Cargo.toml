@@ -2,7 +2,8 @@
 name = "manatsu"
 version = "1.0.0-alpha.1"
 description = "CLI tools for Manatsu"
-keywords = ["cli", "components", "manatsu", "tauri", "vue"]
+readme = "README.md"
+keywords = ["cli", "manatsu", "tauri", "template", "vue"]
 
 [package.homepage]
 workspace = true
@@ -22,9 +23,6 @@ workspace = true
 [package.rust-version]
 workspace = true
 
-[package.readme]
-workspace = true
-
 [package.categories]
 workspace = true
 
@@ -33,7 +31,7 @@ workspace = true
 
 [dependencies]
 anyhow = "1.0.86"
-convert_case = "0.6.0"
+chrono = "0.4.38"
 globset = "0.4.14"
 inquire = "0.7.5"
 zip = "2.1.5"

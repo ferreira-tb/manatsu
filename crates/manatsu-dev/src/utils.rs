@@ -1,4 +1,8 @@
 use crate::prelude::*;
+use colored::Colorize;
+use serde::Deserialize;
+use std::env::current_dir;
+use std::fs;
 
 #[derive(Deserialize)]
 pub struct Config {
@@ -9,7 +13,7 @@ pub struct Config {
 impl Config {
   /// Read the local configuration file.
   pub fn read() -> Result<Config> {
-    let path = env::current_dir()?.join("config.json");
+    let path = current_dir()?.join("config.json");
     let config = fs::read_to_string(path)?;
     serde_json::from_str::<Config>(&config).map_err(Into::into)
   }

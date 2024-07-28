@@ -10,11 +10,8 @@
   "scripts": {
     "build": "mana-dev build",
     "build:shared": "mana-dev build -p shared",
-    "clippy": "pnpm run \"/^clippy:.*/\"",
-    "clippy:manatsu": "cargo clippy -p manatsu -- -D warnings",
-    "clippy:manatsu-dev": "cargo clippy -p manatsu-dev -- -D warnings",
-    "clippy:plugin-manatsu": "cargo clippy -p tauri-plugin-manatsu -- -D warnings",
-    "docs": "cargo doc --open -p manatsu",
+    "clippy": "cargo clippy",
+    "doc": "cargo doc --open -p tauri-plugin-manatsu",
     "format": "prettier . --write && cargo fmt --all",
     "format-check": "prettier . --check",
     "install-dev": "cargo install --path crates/manatsu-dev --force",

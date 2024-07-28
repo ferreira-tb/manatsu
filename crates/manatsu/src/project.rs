@@ -1,6 +1,5 @@
 use anyhow::{anyhow, bail, Context, Result};
 use bytes::Bytes;
-use convert_case::{Case, Casing};
 use globset::{Glob, GlobSet, GlobSetBuilder};
 use regex::Regex;
 use reqwest::Client;
@@ -13,6 +12,13 @@ use taplo::formatter;
 use walkdir::WalkDir;
 use zip::ZipArchive;
 
+const PROJECT_NAME: &str = "%PROJECT_NAME%";
+const CURRENT_YEAR: &str = "%CURRENT_YEAR%";
+const AUTHOR_NAME: &str = "%AUTHOR_NAME%";
+
+/// <https://regex101.com/r/9dSatE>
+const NAME_REGEX: &str = r"^(?:@[a-z0-9-*~][a-z0-9-*._~]*/)?[a-z0-9-~][a-z0-9-._~]*$";
+
 pub struct Project {
   pub name: String,
   pub description: Option<String>,
@@ -22,12 +28,7 @@ pub struct Project {
 }
 
 impl Project {
-  /// <https://regex101.com/r/9dSatE>
-  const NAME_REGEX: &'static str = r"^(?:@[a-z0-9-*~][a-z0-9-*._~]*/)?[a-z0-9-~][a-z0-9-._~]*$";
-
-  /// Create a new project from a template.
-  ///
-  /// <https://github.com/ferreira-tb/template-tauri>
+  /// Template: <https://github.com/ferreira-tb/template-tauri>
   pub async fn create(self) -> Result<()> {
     let start = Instant::now();
 
@@ -48,7 +49,7 @@ impl Project {
     println!("downloading template...");
     let bytes = self.download().await?;
 
-    println!("building project...");
+    println!("creating project...");
     fs::create_dir_all(&path).with_context(|| "could not create project dir")?;
 
     let cursor = Cursor::new(bytes);
@@ -64,8 +65,10 @@ impl Project {
   }
 
   async fn download(&self) -> Result<Bytes> {
+    let user_agent = concat!(env!("CARGO_PKG_NAME"), "/", env!("CARGO_PKG_VERSION"));
     let client = Client::builder()
       .use_rustls_tls()
+      .user_agent(user_agent)
       .brotli(true)
       .gzip(true)
       .build()?;
@@ -97,8 +100,8 @@ impl Project {
     Ok(())
   }
 
-  fn update_package_json(&self, dir_path: impl AsRef<Path>) -> Result<&Self> {
-    let path = dir_path.as_ref().join("package.json");
+  fn update_package_json(&self, dir: &Path) -> Result<&Self> {
+    let path = dir.join("package.json");
     let package_json = fs::read_to_string(&path)?;
     let mut package_json: serde_json::Value = serde_json::from_str(&package_json)?;
 
@@ -118,9 +121,9 @@ impl Project {
     Ok(self)
   }
 
-  fn update_cargo_toml(&self, dir_path: impl AsRef<Path>) -> Result<&Self> {
+  fn update_cargo_toml(&self, dir: &Path) -> Result<&Self> {
     let glob = Glob::new("**/Cargo.toml")?.compile_matcher();
-    let entries = WalkDir::new(dir_path)
+    let entries = WalkDir::new(dir)
       .into_iter()
       .filter_map(std::result::Result::ok)
       .filter(|e| glob.is_match(e.path()));
@@ -154,10 +157,8 @@ impl Project {
     Ok(self)
   }
 
-  fn update_tauri_conf(&self, dir_path: impl AsRef<Path>) -> Result<&Self> {
-    let path = dir_path
-      .as_ref()
-      .join("src-tauri/tauri.conf.json");
+  fn update_tauri_conf(&self, dir: &Path) -> Result<&Self> {
+    let path = dir.join("src-tauri/tauri.conf.json");
     let tauri_conf = fs::read_to_string(&path)?;
     let mut tauri_conf: serde_json::Value = serde_json::from_str(&tauri_conf)?;
 
@@ -170,34 +171,32 @@ impl Project {
     update!("productName", self.name.clone());
     update!("version", self.version.to_string());
 
-    let title = self.name.to_case(Case::Title);
-    tauri_conf["app"]["windows"][0]["title"] = serde_json::Value::String(title);
-
     let tauri_conf = serde_json::to_string_pretty(&tauri_conf)?;
     fs::write(path, tauri_conf)?;
 
     Ok(self)
   }
 
-  fn update_index_html(&self, dir_path: impl AsRef<Path>) -> Result<&Self> {
-    let path = dir_path
-      .as_ref()
-      .join("src/windows/main/index.html");
+  fn update_index_html(&self, dir: &Path) -> Result<&Self> {
+    let path = dir.join("src/windows/main/index.html");
     let index_html = fs::read_to_string(&path)?;
-    let index_html = index_html.replace("PROJECT_NAME", &self.name);
+    let index_html = index_html.replace(PROJECT_NAME, &self.name);
 
     fs::write(path, index_html)?;
 
     Ok(self)
   }
 
-  fn update_readme_md(&self, dir_path: impl AsRef<Path>) -> Result<&Self> {
-    let path = dir_path.as_ref().join("README.md");
+  fn update_readme_md(&self, dir: &Path) -> Result<&Self> {
+    let path = dir.join("README.md");
     let readme_md = fs::read_to_string(&path)?;
-    let mut readme_md = readme_md.replace("PROJECT_NAME", &self.name);
+    let mut readme_md = readme_md.replace(PROJECT_NAME, &self.name);
+
+    let year = chrono::Local::now().format("%Y").to_string();
+    readme_md = readme_md.replace(CURRENT_YEAR, &year);
 
     if let Some(author) = &self.author {
-      readme_md = readme_md.replace("AUTHOR_NAME", author);
+      readme_md = readme_md.replace(AUTHOR_NAME, author);
     }
 
     fs::write(path, readme_md)?;
@@ -205,9 +204,9 @@ impl Project {
     Ok(self)
   }
 
-  pub fn is_valid(name: impl AsRef<str>) -> bool {
-    let regex = Regex::new(Project::NAME_REGEX).unwrap();
-    regex.is_match(name.as_ref())
+  pub fn is_valid(name: &str) -> bool {
+    let regex = Regex::new(NAME_REGEX).unwrap();
+    regex.is_match(name)
   }
 }
 
@@ -233,6 +232,7 @@ fn build_globset() -> GlobSet {
   add!("**/*.lock");
   add!("**/*.log");
   add!("**/config.json");
+  add!("**/workspace.md");
 
   builder.build().unwrap()
 }
@@ -242,7 +242,7 @@ fn find_extracted_dir(path: &Path) -> Result<PathBuf> {
     let entry_path = entry.path();
     if entry.metadata()?.is_dir() {
       let file_name = entry.file_name();
-      if matches!(file_name.to_str(), Some(n) if n.contains("template-tauri")) {
+      if matches!(file_name.to_str(), Some(it) if it.contains("template-tauri")) {
         return Ok(entry_path);
       }
     }
@@ -279,8 +279,7 @@ fn hoist_extracted_files(path: &Path) -> Result<()> {
   Ok(())
 }
 
-fn remove_entry(path: impl AsRef<Path>) -> Result<()> {
-  let path = path.as_ref();
+fn remove_entry(path: &Path) -> Result<()> {
   let metadata = path.metadata()?;
   if metadata.is_dir() {
     fs::remove_dir_all(path)?;

@@ -10,9 +10,11 @@ pub trait Command {
 
 #[derive(Debug, clap::Args)]
 pub struct Create {
+  /// Author of the project.
   #[arg(short = 'a', long, value_name = "AUTHOR")]
   author: Option<String>,
 
+  /// A brief description of the project.
   #[arg(short = 'd', long, value_name = "DESCRIPTION")]
   description: Option<String>,
 
@@ -20,9 +22,11 @@ pub struct Create {
   #[arg(short = 'f', long)]
   force: bool,
 
+  /// Project name.
   #[arg(short = 'n', long, value_name = "NAME")]
   name: Option<String>,
 
+  /// Project version.
   #[arg(short = 'v', long, value_name = "VERSION", default_value = "0.1.0")]
   version: Option<String>,
 }
@@ -53,12 +57,17 @@ impl super::Command for Create {
       self.author = Text::new("Author").prompt_skippable()?;
     }
 
+    let version = self
+      .version
+      .as_deref()
+      .expect("version has a default value");
+    
     let project = Project {
       name,
       description: self.description,
       author: self.author,
       force: self.force,
-      version: Version::parse(self.version.as_deref().unwrap())?,
+      version: Version::parse(version)?,
     };
 
     project.create().await

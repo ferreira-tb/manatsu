@@ -1,6 +1,9 @@
 use crate::package::{self, Package};
 use crate::prelude::*;
 use clap::Args;
+use colored::Colorize;
+use std::fs;
+use std::time::Instant;
 
 #[derive(Debug, Args)]
 pub struct Build {
@@ -19,35 +22,22 @@ impl super::Command for Build {
 
     let packages = self
       .package
-      .unwrap_or_else(|| {
-        Package::PUBLIC
-          .iter()
-          .map(ToString::to_string)
-          .collect()
-      })
+      .map_or_else(Package::public, Package::from_iter)
       .into_iter()
-      .map(|pkg| {
-        pkg
-          .trim()
-          .replace("@manatsu/", "")
-          .to_case(Case::Kebab)
-      })
       .collect_vec();
 
     if packages.is_empty() {
       bail!("{}", "nothing to build".red());
     }
 
-    if packages.len() == 1 && packages[0] == "shared" {
+    if packages.len() == 1 && packages[0].is_shared() {
       return Ok(());
     }
 
     for package in &packages {
-      let package = package.as_str();
-
       if should_build(package) {
         args.push("-F");
-        args.push(package);
+        args.push(package.as_ref());
       }
     }
 
@@ -65,6 +55,7 @@ impl super::Command for Build {
     copy_files(&packages)?;
 
     println!("built in {:?}", start.elapsed());
+
     Ok(())
   }
 }
@@ -81,15 +72,16 @@ async fn build_shared() -> Result<()> {
   Ok(())
 }
 
-fn should_build(package: &str) -> bool {
+fn should_build(package: &Package) -> bool {
   // The shared package should already been built at this point.
-  package != "shared"
+  !package.is_shared()
 }
 
-fn copy_files(packages: &Vec<String>) -> Result<()> {
-  let dist = package::dist("manatsu")?;
+fn copy_files(packages: &[Package]) -> Result<()> {
+  let dist = package::dist(Package::Manatsu.as_ref())?;
   for pkg in packages {
-    if Package::is_manual_chunk(pkg) {
+    if pkg.is_manual_chunk() {
+      let pkg = pkg.as_ref();
       let to = dist.join(format!("{pkg}.d.ts"));
       fs::copy(package::dts(pkg)?, to)?;
     }
