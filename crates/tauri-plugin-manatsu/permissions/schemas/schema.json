@@ -309,20 +309,6 @@
           ]
         },
         {
-          "description": "allow-manatsu-version -> Enables the manatsu_version command without any pre-configured scope.",
-          "type": "string",
-          "enum": [
-            "allow-manatsu-version"
-          ]
-        },
-        {
-          "description": "deny-manatsu-version -> Denies the manatsu_version command without any pre-configured scope.",
-          "type": "string",
-          "enum": [
-            "deny-manatsu-version"
-          ]
-        },
-        {
           "description": "allow-save-log -> Enables the save_log command without any pre-configured scope.",
           "type": "string",
           "enum": [
@@ -348,6 +334,20 @@
           "type": "string",
           "enum": [
             "deny-set-default-vue-version"
+          ]
+        },
+        {
+          "description": "allow-version -> Enables the version command without any pre-configured scope.",
+          "type": "string",
+          "enum": [
+            "allow-version"
+          ]
+        },
+        {
+          "description": "deny-version -> Denies the version command without any pre-configured scope.",
+          "type": "string",
+          "enum": [
+            "deny-version"
           ]
         },
         {

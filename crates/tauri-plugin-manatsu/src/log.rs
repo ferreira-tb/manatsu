@@ -1,13 +1,13 @@
 use crate::error::Result;
+use crate::PluginState;
 use chrono::{DateTime, FixedOffset, Local};
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 use std::fs;
 use std::path::PathBuf;
-use std::sync::{Mutex, OnceLock};
+use std::sync::OnceLock;
 use sysinfo::System;
 use tauri::{AppHandle, Manager, Runtime};
-use tracing::error;
 
 pub mod date {
   use chrono::Local;
@@ -20,11 +20,7 @@ pub mod date {
   }
 }
 
-pub(crate) const MAX_CACHE_SIZE: usize = 20;
-
 pub(crate) static VUE_VERSION: OnceLock<String> = OnceLock::new();
-
-pub(crate) struct LogCache(pub(crate) Mutex<Vec<Log>>);
 
 #[derive(Debug, Deserialize, Serialize, PartialEq, Eq)]
 pub struct VersionSnapshot {
@@ -97,7 +93,7 @@ impl Log {
 
   fn path<R: Runtime>(app: &AppHandle<R>) -> Result<PathBuf> {
     let date = Local::now().format("%Y%m%d");
-    let filename = format!("error.{date}.json");
+    let filename = format!("{date}.json");
     app
       .path()
       .app_log_dir()
@@ -114,8 +110,8 @@ impl Log {
     let logs = fs::read(&path).unwrap_or_default();
     let mut logs: Vec<Log> = serde_json::from_slice(&logs).unwrap_or_default();
 
-    let cache = app.state::<LogCache>();
-    let mut cache = cache.0.lock().unwrap();
+    let state = app.state::<PluginState>();
+    let mut cache = state.log_cache.lock().unwrap();
 
     if !cache.is_empty() {
       for log in cache.drain(..) {
@@ -128,7 +124,10 @@ impl Log {
       logs.sort_unstable_by(|a, b| b.cmp(a));
 
       let logs = serde_json::to_vec_pretty(&logs)?;
-      fs::write(path, logs)?;
+      fs::write(&path, logs)?;
+
+      #[cfg(feature = "tracing")]
+      tracing::info!("logs written to {}", path.display());
     }
 
     Ok(())
@@ -166,13 +165,14 @@ impl Log {
       .version
       .clone_into(&mut self.version.app);
 
-    error!(name = %self.name, message = %self.message);
+    #[cfg(feature = "tracing")]
+    tracing::error!(name = %self.name, message = %self.message);
 
-    let cache = app.state::<LogCache>();
-    let mut cache = cache.0.lock().unwrap();
+    let state = app.state::<PluginState>();
+    let mut cache = state.log_cache.lock().unwrap();
     cache.push(self);
 
-    if cache.len() > MAX_CACHE_SIZE {
+    if cache.len() >= state.log_cache_size {
       // `Log::write_to_disk` must lock the cache, so we need to drop it here.
       drop(cache);
 

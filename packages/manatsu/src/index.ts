@@ -1,3 +1,5 @@
+export { createVersionSnapshot, isDev, log, version } from '@manatsu/tauri-plugin/src/index.ts';
+
 export {
   createManatsu,
   defaultErrorHandler,
@@ -5,19 +7,12 @@ export {
 } from '@manatsu/vue-plugin/src/index.ts';
 
 export {
-  createVersionSnapshot,
-  getManatsuVersion,
-  isDev,
-  saveLog,
-} from '@manatsu/tauri-plugin/src/index.ts';
-
-export {
   type ComputedSymbol,
   EmptyComponent,
+  type ErrorLog,
   getCurrentApp,
   handleError,
   injectStrict,
-  type Log,
   type MaybeNullishRef,
   type RefSymbol,
   type ShallowRefSymbol,

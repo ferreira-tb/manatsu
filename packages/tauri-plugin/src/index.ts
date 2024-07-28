@@ -1,12 +1,12 @@
 import { version as VUE_VERSION } from 'vue';
 import { invoke } from '@tauri-apps/api/core';
-import type { Log, VersionSnapshot } from '@manatsu/shared';
+import type { ErrorLog, VersionSnapshot } from '@manatsu/shared';
 
 const enum Command {
   IsDev = 'plugin:manatsu|is_dev',
-  ManatsuVersion = 'plugin:manatsu|manatsu_version',
   SaveLog = 'plugin:manatsu|save_log',
   SetDefaultVueVersion = 'plugin:manatsu|set_default_vue_version',
+  Version = 'plugin:manatsu|version',
   VersionSnapshot = 'plugin:manatsu|version_snapshot',
 }
 
@@ -18,12 +18,12 @@ export function isDev(): Promise<boolean> {
   return invoke(Command.IsDev);
 }
 
-export function getManatsuVersion(): Promise<string> {
-  return invoke(Command.ManatsuVersion);
+export function log(err: ErrorLog): Promise<void> {
+  return invoke(Command.SaveLog, { log: err });
 }
 
-export function saveLog(log: Log): Promise<void> {
-  return invoke(Command.SaveLog, { log });
+export function version(): Promise<string> {
+  return invoke(Command.Version);
 }
 
 /** @internal */
