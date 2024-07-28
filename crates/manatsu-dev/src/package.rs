@@ -1,68 +1,81 @@
 use crate::prelude::*;
+use convert_case::{Case, Casing};
+use serde::Deserialize;
+use std::env::current_dir;
+use std::fs;
+use std::path::PathBuf;
+use strum::{AsRefStr, Display, EnumIs, EnumIter, EnumString, IntoEnumIterator};
+
+#[derive(AsRefStr, Debug, PartialEq, Eq, Display, EnumIs, EnumString, EnumIter)]
+#[strum(serialize_all = "kebab-case")]
+pub enum Package {
+  Manatsu,
+  Composables,
+  Shared,
+  TauriPlugin,
+  VuePlugin,
+}
+
+impl Package {
+  pub const MANUAL_CHUNK: [Package; 3] = [
+    Package::Composables,
+    Package::TauriPlugin,
+    Package::VuePlugin,
+  ];
+
+  pub fn public() -> Vec<Self> {
+    Self::iter().collect()
+  }
+
+  pub fn from_iter<I>(iter: I) -> Vec<Self>
+  where
+    I: IntoIterator<Item = String>,
+  {
+    iter
+      .into_iter()
+      .map(|it| {
+        it.trim()
+          .replace("@manatsu/", "")
+          .to_case(Case::Kebab)
+      })
+      .filter_map(|it| Package::try_from(it.as_str()).ok())
+      .collect()
+  }
+
+  pub fn is_manual_chunk(&self) -> bool {
+    Self::MANUAL_CHUNK.contains(self)
+  }
+}
 
 #[derive(Deserialize)]
 #[serde(rename_all(serialize = "snake_case", deserialize = "camelCase"))]
-pub struct Package {
+pub struct PackageManifest {
   pub version: String,
 }
 
-impl<'a> Package {
-  pub const PUBLIC: [&'a str; 5] = [
-    "manatsu",
-    "composables",
-    "shared",
-    "tauri-plugin",
-    "vue-plugin",
-  ];
-
-  pub const MANUAL_CHUNK: [&'a str; 3] = ["composables", "tauri-plugin", "vue-plugin"];
-
-  pub fn read_root() -> Result<Package> {
-    let path: PathBuf = env::current_dir()?.join("package.json");
+impl PackageManifest {
+  pub fn read_root() -> Result<PackageManifest> {
+    let path: PathBuf = current_dir()?.join("package.json");
     let package = fs::read_to_string(path)?;
-    serde_json::from_str::<Package>(&package).map_err(Into::into)
-  }
-
-  pub fn is_manual_chunk(package: impl AsRef<str>) -> bool {
-    let package = package.as_ref();
-    Package::MANUAL_CHUNK.contains(&package)
+    serde_json::from_str::<PackageManifest>(&package).map_err(Into::into)
   }
 }
 
-pub fn all() -> Vec<String> {
-  Package::PUBLIC
-    .into_iter()
-    .map_into()
-    .collect_vec()
-}
-
-pub fn dir(package: impl AsRef<str>) -> Result<PathBuf> {
-  let package = package.as_ref();
-  let cwd = env::current_dir()?;
-  let path = cwd.join("packages").join(package);
+pub fn dir(package: &str) -> Result<PathBuf> {
+  let path = current_dir()?.join(format!("packages/{package}"));
   Ok(path)
 }
 
-pub fn src(package: impl AsRef<str>) -> Result<PathBuf> {
-  let package = package.as_ref();
-  let path = dir(package)?.join("src");
-  Ok(path)
+macro_rules! create_fn {
+  ($name:ident, $call:ident, $path:literal) => {
+    pub fn $name(package: &str) -> Result<PathBuf> {
+      let path = $call(package)?.join($path);
+      Ok(path)
+    }
+  };
 }
 
-pub fn dist(package: impl AsRef<str>) -> Result<PathBuf> {
-  let package = package.as_ref();
-  let path = dir(package)?.join("dist");
-  Ok(path)
-}
-
-pub fn dts(package: impl AsRef<str>) -> Result<PathBuf> {
-  let package = package.as_ref();
-  let path = dist(package)?.join("index.d.ts");
-  Ok(path)
-}
-
-pub fn index(package: impl AsRef<str>) -> Result<PathBuf> {
-  let package = package.as_ref();
-  let path = src(package)?.join("index.ts");
-  Ok(path)
-}
+create_fn!(src, dir, "src");
+create_fn!(dist, dir, "dist");
+create_fn!(dts, dist, "index.d.ts");
+create_fn!(index, src, "index.ts");

@@ -4,7 +4,7 @@ import { defineConfig } from 'vite';
 
 const dtsOptions = {
   rollupTypes: true,
-  exclude: ['node_modules/**', 'dist/**', '**/*.{spec,test}.ts']
+  exclude: ['node_modules/**', 'dist/**', '**/*.{spec,test}.ts'],
 };
 
 export default defineConfig({
@@ -17,10 +17,10 @@ export default defineConfig({
     lib: {
       entry: join(__dirname, 'src/index.ts'),
       formats: ['es'],
-      fileName: 'index'
+      fileName: 'index',
     },
     rollupOptions: {
-      external: ['vue', 'vue-router', /^@vueuse/, /^@tauri-apps/, /^@tb-dev/]
-    }
-  }
+      external: ['vue', 'vue-router', /^@vueuse/, /^@tauri-apps/, /^@tb-dev/],
+    },
+  },
 });

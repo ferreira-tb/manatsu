@@ -15,5 +15,3 @@ export interface OnKeyStrokeOptions extends OnKeyStrokeOptionsOriginal {
   /** @default true */
   prevent?: boolean;
 }
-
-export type PreventKeyStrokeOptions = Omit<OnKeyStrokeOptions, 'preventDefault'>;

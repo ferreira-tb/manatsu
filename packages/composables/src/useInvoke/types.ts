@@ -6,11 +6,22 @@ import type { ErrorHandler, MaybeNullishRef } from '@manatsu/shared';
 export interface UseInvokeOptions<Data> {
   /** Arguments to pass to the command. */
   readonly args?: MaybeNullishRef<InvokeArgs>;
-  /** @default false */
+  /**
+   * Whether to deep watch for changes.
+   * @default false
+   */
   readonly deep?: boolean;
-  /** @default false */
+
+  /**
+   * Whether to execute the command immediately.
+   * @default false
+   */
   readonly lazy?: boolean;
-  /** @default true */
+
+  /**
+   * Whether to use a shallow ref for the state.
+   * @default true
+   */
   readonly shallow?: boolean;
 
   readonly onError?: Nullish<ErrorHandler>;

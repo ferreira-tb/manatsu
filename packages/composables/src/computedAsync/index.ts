@@ -3,9 +3,10 @@ import { handleError } from '@manatsu/shared';
 import {
   type AsyncComputedOnCancel,
   type AsyncComputedOptions,
-  computedAsync as original
+  computedAsync as original,
 } from '@vueuse/core';
 
+/** Same as `computedAsync` from `@vueuse/core`, but with a default error handler */
 export function computedAsync<T>(
   initial: T,
   callback: (onCancel: AsyncComputedOnCancel) => T | Promise<T>,

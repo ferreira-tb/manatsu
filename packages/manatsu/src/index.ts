@@ -1,55 +1,35 @@
+export { createVersionSnapshot, isDev, log, version } from '@manatsu/tauri-plugin/src/index.ts';
+
 export {
   createManatsu,
   defaultErrorHandler,
-  type ManatsuOptions
+  type ManatsuOptions,
 } from '@manatsu/vue-plugin/src/index.ts';
-
-export {
-  createVersionSnapshot,
-  getManatsuVersion,
-  isDev,
-  saveLog
-} from '@manatsu/tauri-plugin/src/index.ts';
 
 export {
   type ComputedSymbol,
   EmptyComponent,
+  type ErrorLog,
   getCurrentApp,
   handleError,
   injectStrict,
-  type Log,
   type MaybeNullishRef,
   type RefSymbol,
   type ShallowRefSymbol,
   type VersionSnapshot,
   type WritableRefSymbol,
-  type WritableShallowRefSymbol
+  type WritableShallowRefSymbol,
 } from '@manatsu/shared';
 
 export {
   computedAsync,
-  invokeOnKeyDown,
-  invokeOnKeyStroke,
   onAltKeyDown,
-  onAltKeyStroke,
   onContextMenu,
   onCtrlKeyDown,
-  onCtrlKeyStroke,
   onCtrlShiftKeyDown,
-  onCtrlShiftKeyStroke,
   onKeyDown,
   onKeyStroke,
   onShiftKeyDown,
-  onShiftKeyStroke,
-  preventContextMenu,
-  preventCtrlKeyDown,
-  preventCtrlKeyStroke,
-  preventCtrlShiftKeyDown,
-  preventCtrlShiftKeyStroke,
-  preventKeyDown,
-  preventKeyStroke,
-  preventShiftKeyDown,
-  preventShiftKeyStroke,
   useElementSize,
   useHeight,
   useInvoke,
@@ -58,7 +38,7 @@ export {
   useListen,
   useWidth,
   useWindowHeight,
-  useWindowWidth
+  useWindowWidth,
 } from '@manatsu/composables/src/index.ts';
 
 declare global {

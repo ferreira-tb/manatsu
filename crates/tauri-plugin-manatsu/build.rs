@@ -1,8 +1,8 @@
 const COMMANDS: &[&str] = &[
   "is_dev",
-  "manatsu_version",
   "save_log",
   "set_default_vue_version",
+  "version",
   "version_snapshot",
 ];
 

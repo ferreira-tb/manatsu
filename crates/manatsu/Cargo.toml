@@ -1,8 +1,9 @@
 [package]
 name = "manatsu"
-version = "0.14.0"
+version = "1.0.0-alpha.1"
 description = "CLI tools for Manatsu"
-keywords = ["cli", "components", "manatsu", "tauri", "vue"]
+readme = "README.md"
+keywords = ["cli", "manatsu", "tauri", "template", "vue"]
 
 [package.homepage]
 workspace = true
@@ -22,9 +23,6 @@ workspace = true
 [package.rust-version]
 workspace = true
 
-[package.readme]
-workspace = true
-
 [package.categories]
 workspace = true
 
@@ -33,7 +31,7 @@ workspace = true
 
 [dependencies]
 anyhow = "1.0.86"
-convert_case = "0.6.0"
+chrono = "0.4.38"
 globset = "0.4.14"
 inquire = "0.7.5"
 zip = "2.1.5"
@@ -46,7 +44,7 @@ taplo = "0.13.0"
 futures = "0.3.30"
 
 [dependencies.clap]
-version = "4.5.9"
+version = "4.5.11"
 features = ["derive"]
 
 [dependencies.serde]
@@ -58,7 +56,7 @@ version = "1.0.120"
 features = ["preserve_order"]
 
 [dependencies.toml]
-version = "0.8.15"
+version = "0.8.16"
 features = ["preserve_order"]
 
 [dependencies.reqwest]
@@ -66,5 +64,5 @@ version = "0.12.5"
 features = ["brotli", "gzip", "json", "rustls-tls"]
 
 [dependencies.tokio]
-version = "1.38.1"
+version = "1.39.2"
 features = ["macros", "process", "rt-multi-thread"]

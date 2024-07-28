@@ -9,10 +9,9 @@ export function useListen<T = unknown>(
   handler: EventCallback<T>,
   options?: Options
 ) {
-  const eventRef = toRef(event);
-  let unlisten: Nullish<Awaited<ReturnType<typeof listen>>> = null;
+  let unlisten: Nullish<Awaited<ReturnType<typeof listen>>>;
 
-  const stopWatcher = watchImmediate(eventRef, async (e) => {
+  const stopWatcher = watchImmediate(toRef(event), async (e) => {
     let fn: typeof unlisten;
     try {
       fn = await listen(e, handler, options);

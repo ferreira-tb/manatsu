@@ -8,11 +8,6 @@ pub async fn is_dev() -> bool {
 }
 
 #[tauri::command]
-pub async fn manatsu_version() -> String {
-  crate::VERSION.into()
-}
-
-#[tauri::command]
 pub async fn save_log<R: Runtime>(app: AppHandle<R>, log: Log) -> Result<()> {
   log.save(&app).map_err(Into::into)
 }
@@ -20,6 +15,11 @@ pub async fn save_log<R: Runtime>(app: AppHandle<R>, log: Log) -> Result<()> {
 #[tauri::command]
 pub async fn set_default_vue_version(version: String) {
   let _ = VUE_VERSION.set(version);
+}
+
+#[tauri::command]
+pub async fn version() -> String {
+  crate::VERSION.into()
 }
 
 #[tauri::command]

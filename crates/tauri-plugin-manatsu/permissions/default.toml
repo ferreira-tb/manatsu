@@ -3,8 +3,8 @@
 description = "Default permissions for the Manatsu plugin"
 permissions = [
   "allow-is-dev",
-  "allow-manatsu-version",
   "allow-save-log",
   "allow-set-default-vue-version",
+  "allow-version",
   "allow-version-snapshot",
 ]

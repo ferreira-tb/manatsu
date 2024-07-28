@@ -1,8 +1,11 @@
-use crate::package::Package;
+use crate::package::PackageManifest;
 use crate::prelude::*;
 use crate::utils::Config;
 use clap::Args;
+use colored::Colorize;
 use reqwest::{header, Client};
+use std::process::Stdio;
+use tokio::process::Command;
 
 #[derive(Debug, Args)]
 pub struct Release {
@@ -19,7 +22,7 @@ impl super::Command for Release {
 
     let config = Config::read().ok();
     if matches!(config, Some(ref c) if c.github) {
-      create_github_release(config.unwrap().github_token).await?;
+      create_github_release(&config.unwrap().github_token).await?;
     } else {
       if !self.only_crate {
         let status = pnpm!(["publish", "-r", "--no-git-checks"])
@@ -65,17 +68,12 @@ async fn prepare() -> Result<()> {
   Ok(())
 }
 
-async fn create_github_release<T>(github_token: T) -> Result<()>
-where
-  T: AsRef<str>,
-{
-  let package = Package::read_root()?;
-  let client = Client::builder().use_rustls_tls().build()?;
-
+async fn create_github_release(github_token: &str) -> Result<()> {
   let owner_repo = "ferreira-tb/manatsu";
   let endpoint = format!("https://api.github.com/repos/{owner_repo}/releases");
-  let auth = format!("Bearer {}", github_token.as_ref());
+  let auth = format!("Bearer {github_token}");
 
+  let package = PackageManifest::read_root()?;
   let body = serde_json::json!({
     "tag_name": format!("v{}", package.version),
     "name": format!("v{}", package.version),
@@ -84,6 +82,7 @@ where
     "generate_release_notes": true
   });
 
+  let client = Client::builder().use_rustls_tls().build()?;
   let response = client
     .post(&endpoint)
     .header(header::ACCEPT, "application/vnd.github+json")
@@ -131,7 +130,5 @@ async fn is_dirty() -> Result<bool> {
 
   bail_on_output_err!(output);
 
-  let is_empty = output.stdout.is_empty();
-
-  Ok(!is_empty)
+  Ok(!output.stdout.is_empty())
 }
