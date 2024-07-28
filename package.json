@@ -21,8 +21,7 @@
     "release": "pnpm run clippy && pnpm run build && mana-dev release",
     "release:crate": "pnpm run clippy && pnpm run build && mana-dev release --only-crate",
     "release:package": "pnpm run build && mana-dev release --only-package",
-    "type-check": "pnpm run -r --bail --parallel --aggregate-output type-check",
-    "update": "miho update major -t"
+    "type-check": "pnpm run -r --bail --parallel --aggregate-output type-check"
   },
   "devDependencies": {
     "@tauri-apps/api": "^2.0.0-beta.15",

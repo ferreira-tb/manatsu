@@ -1,3 +1,4 @@
+import type { Nullish } from '@tb-dev/utils';
 import { invoke } from '@tauri-apps/api/core';
 import { getCurrentApp, handleError } from '@manatsu/shared';
 import type { UseInvokeOptions, UseInvokeReturn } from './types';
@@ -13,7 +14,7 @@ export function useInvoke<Data>(
 ): UseInvokeReturn<Data> {
   const { deep = false, lazy = false, shallow = true } = options;
 
-  let id: symbol | null = null;
+  let id: Nullish<symbol>;
   const commandRef = toRef(command);
   const argsRef = toRef(options.args);
 
