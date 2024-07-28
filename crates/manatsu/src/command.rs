@@ -61,7 +61,7 @@ impl super::Command for Create {
       .version
       .as_deref()
       .expect("version has a default value");
-    
+
     let project = Project {
       name,
       description: self.description,
