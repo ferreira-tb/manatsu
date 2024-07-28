@@ -74,7 +74,9 @@ impl Builder {
 
 impl Default for Builder {
   fn default() -> Self {
-    Self { log_cache_size: 20 }
+    Self {
+      log_cache_size: log::DEFAULT_CACHE_SIZE,
+    }
   }
 }
 

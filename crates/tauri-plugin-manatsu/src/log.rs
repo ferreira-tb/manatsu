@@ -20,6 +20,8 @@ pub mod date {
   }
 }
 
+pub const DEFAULT_CACHE_SIZE: usize = 20;
+
 pub(crate) static VUE_VERSION: OnceLock<String> = OnceLock::new();
 
 #[derive(Debug, Deserialize, Serialize, PartialEq, Eq)]
