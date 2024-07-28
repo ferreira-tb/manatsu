@@ -49,7 +49,7 @@ export function useInvoke<Data>(
     },
     {
       deep,
-      immediate: !lazy
+      immediate: !lazy,
     }
   );
 
@@ -64,6 +64,6 @@ export function useInvoke<Data>(
     state: state as Ref<Data>,
     loading: readonly(loading),
     execute: trigger,
-    stop
+    stop,
   };
 }

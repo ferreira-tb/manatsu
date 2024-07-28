@@ -3,7 +3,7 @@ import { handleError } from '@manatsu/shared';
 import {
   type AsyncComputedOnCancel,
   type AsyncComputedOptions,
-  computedAsync as original
+  computedAsync as original,
 } from '@vueuse/core';
 
 export function computedAsync<T>(

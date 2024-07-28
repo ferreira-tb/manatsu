@@ -17,7 +17,7 @@ export function onKeyStroke(
     metaKey = false,
     shiftKey = false,
     enabled = true,
-    prevent = true
+    prevent = true,
   } = options;
 
   function callback(e: KeyboardEvent) {

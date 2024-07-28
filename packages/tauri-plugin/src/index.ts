@@ -7,7 +7,7 @@ const enum Command {
   ManatsuVersion = 'plugin:manatsu|manatsu_version',
   SaveLog = 'plugin:manatsu|save_log',
   SetDefaultVueVersion = 'plugin:manatsu|set_default_vue_version',
-  VersionSnapshot = 'plugin:manatsu|version_snapshot'
+  VersionSnapshot = 'plugin:manatsu|version_snapshot',
 }
 
 export function createVersionSnapshot(): Promise<VersionSnapshot> {

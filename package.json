@@ -5,7 +5,7 @@
   "private": true,
   "packageManager": "pnpm@9.6.0",
   "lint-staged": {
-    "*.{?(c|m)@(j|t)s,?(s)css,vue,md,json,yaml}": "prettier --write"
+    "*.{?(c|m)@(j|t)s,vue,md}": "prettier --write"
   },
   "scripts": {
     "build": "mana-dev build",

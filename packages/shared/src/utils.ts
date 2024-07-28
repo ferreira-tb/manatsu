@@ -5,7 +5,7 @@ import { defineComponent, inject, type InjectionKey } from 'vue';
 export const EmptyComponent = defineComponent({
   render() {
     return null;
-  }
+  },
 });
 
 /** Like `inject`, but throws an error if the value was not provided. */

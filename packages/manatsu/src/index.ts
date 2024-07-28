@@ -1,14 +1,14 @@
 export {
   createManatsu,
   defaultErrorHandler,
-  type ManatsuOptions
+  type ManatsuOptions,
 } from '@manatsu/vue-plugin/src/index.ts';
 
 export {
   createVersionSnapshot,
   getManatsuVersion,
   isDev,
-  saveLog
+  saveLog,
 } from '@manatsu/tauri-plugin/src/index.ts';
 
 export {
@@ -23,7 +23,7 @@ export {
   type ShallowRefSymbol,
   type VersionSnapshot,
   type WritableRefSymbol,
-  type WritableShallowRefSymbol
+  type WritableShallowRefSymbol,
 } from '@manatsu/shared';
 
 export {
@@ -58,7 +58,7 @@ export {
   useListen,
   useWidth,
   useWindowHeight,
-  useWindowWidth
+  useWindowWidth,
 } from '@manatsu/composables/src/index.ts';
 
 declare global {

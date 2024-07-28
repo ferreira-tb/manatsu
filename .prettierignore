@@ -5,3 +5,4 @@ target
 *.rs
 *.toml
 permissions
+**/schema.json

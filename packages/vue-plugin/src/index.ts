@@ -14,7 +14,7 @@ export function createManatsu(options: ManatsuOptions = {}): Plugin {
       setGlobalManatsu({ app, errorHandler });
 
       setDefaultVueVersion().catch(errorHandler);
-    }
+    },
   };
 
   return manatsu;
@@ -25,6 +25,6 @@ export function defaultErrorHandler(this: App, err: unknown) {
     message: err instanceof Error ? err.message : String(err),
     name: err instanceof Error ? err.name : 'Error',
     stack: err instanceof Error ? err.stack : null,
-    version: { vue: this.version }
+    version: { vue: this.version },
   });
 }

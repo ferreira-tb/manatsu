@@ -34,11 +34,11 @@ const dtsOptions = {
       trailingComma: 'none',
       bracketSpacing: true,
       bracketSameLine: false,
-      arrowParens: 'always'
+      arrowParens: 'always',
     });
 
     await writeFile(filePath, content);
-  }
+  },
 };
 
 export default defineConfig({
@@ -51,7 +51,7 @@ export default defineConfig({
     lib: {
       entry: join(__dirname, 'src/index.ts'),
       formats: ['es'],
-      fileName: 'index'
+      fileName: 'index',
     },
     rollupOptions: {
       external: ['vue', 'vue-router', /^@vueuse/, /^@tauri-apps/, /^@tb-dev/],
@@ -60,9 +60,9 @@ export default defineConfig({
         manualChunks: {
           composables: ['@manatsu/composables/src/index.ts'],
           'tauri-plugin': ['@manatsu/tauri-plugin/src/index.ts'],
-          'vue-plugin': ['@manatsu/vue-plugin/src/index.ts']
-        }
-      }
-    }
-  }
+          'vue-plugin': ['@manatsu/vue-plugin/src/index.ts'],
+        },
+      },
+    },
+  },
 });
