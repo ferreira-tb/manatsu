@@ -1,6 +1,6 @@
 {
   "name": "@manatsu/monorepo",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "type": "module",
   "private": true,
   "packageManager": "pnpm@9.6.0",
@@ -24,22 +24,22 @@
     "type-check": "pnpm run -r --bail --parallel --aggregate-output type-check"
   },
   "devDependencies": {
-    "@tauri-apps/api": "^2.0.0-beta.15",
+    "@tauri-apps/api": "^2.0.0-beta.16",
     "@tb-dev/eslint-config": "^4.4.2",
     "@tb-dev/utils": "^2.0.3",
-    "@types/node": "^22.0.0",
+    "@types/node": "^22.0.2",
     "@vitejs/plugin-vue": "^5.1.1",
     "@vueuse/core": "^10.11.0",
     "eslint": "^8.57.0",
-    "husky": "^9.1.3",
+    "husky": "^9.1.4",
     "lint-staged": "^15.2.7",
     "prettier": "^3.3.3",
     "tslib": "^2.6.3",
     "typescript": "^5.5.4",
     "vite": "^5.3.5",
     "vite-plugin-dts": "^3.9.1",
-    "vue": "^3.4.34",
-    "vue-router": "^4.4.0",
+    "vue": "^3.4.35",
+    "vue-router": "^4.4.1",
     "vue-tsc": "^2.0.29"
   }
 }

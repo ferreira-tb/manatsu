@@ -10,13 +10,11 @@ use sysinfo::System;
 use tauri::{AppHandle, Manager, Runtime};
 
 pub mod date {
-  use chrono::Local;
-
   /// <https://docs.rs/chrono/latest/chrono/format/strftime/index.html>
   pub const TIMESTAMP: &str = "%F %T%.3f %:z";
 
   pub fn now() -> String {
-    Local::now().format(TIMESTAMP).to_string()
+    chrono::Local::now().format(TIMESTAMP).to_string()
   }
 }
 
@@ -177,6 +175,9 @@ impl Log {
     if cache.len() >= state.log_cache_size {
       // `Log::write_to_disk` must lock the cache, so we need to drop it here.
       drop(cache);
+
+      #[cfg(feature = "tracing")]
+      tracing::info!("cache full ({}), writing to disk", state.log_cache_size);
 
       Log::write_to_disk(app)?;
     }
