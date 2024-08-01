@@ -1,6 +1,6 @@
 {
   "name": "@manatsu/monorepo",
-  "version": "1.0.0-alpha.2",
+  "version": "1.0.0-alpha.3",
   "type": "module",
   "private": true,
   "packageManager": "pnpm@9.6.0",

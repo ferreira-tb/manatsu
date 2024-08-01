@@ -3,9 +3,9 @@ use crate::PluginState;
 use chrono::{DateTime, FixedOffset, Local};
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
-use std::fs;
 use std::path::PathBuf;
 use std::sync::OnceLock;
+use std::{fs, mem};
 use sysinfo::System;
 use tauri::{AppHandle, Manager, Runtime};
 
@@ -102,29 +102,25 @@ impl Log {
   }
 
   pub fn write_to_disk<R: Runtime>(app: &AppHandle<R>) -> Result<()> {
-    let path = Log::path(app)?;
-    if let Some(parent) = path.parent() {
-      fs::create_dir_all(parent)?;
-    }
-
-    let logs = fs::read(&path).unwrap_or_default();
-    let mut logs: Vec<Log> = serde_json::from_slice(&logs).unwrap_or_default();
-
     let state = app.state::<PluginState>();
     let mut cache = state.log_cache.lock().unwrap();
 
     if !cache.is_empty() {
-      for log in cache.drain(..) {
-        logs.push(log);
-      }
-
-      cache.shrink_to_fit();
+      let cached_logs = mem::take(&mut *cache);
       drop(cache);
 
+      let path = Log::path(app)?;
+      if let Some(parent) = path.parent() {
+        fs::create_dir_all(parent)?;
+      }
+
+      let logs = fs::read(&path).unwrap_or_default();
+      let mut logs: Vec<Log> = serde_json::from_slice(&logs).unwrap_or_default();
+
+      logs.extend(cached_logs);
       logs.sort_unstable_by(|a, b| b.cmp(a));
 
-      let logs = serde_json::to_vec_pretty(&logs)?;
-      fs::write(&path, logs)?;
+      fs::write(&path, serde_json::to_vec_pretty(&logs)?)?;
 
       #[cfg(feature = "tracing")]
       tracing::info!("logs written to {}", path.display());
