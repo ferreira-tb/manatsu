@@ -1,6 +1,6 @@
 {
   "name": "manatsu",
-  "version": "1.0.0-alpha.3",
+  "version": "1.0.0-alpha.4",
   "description": "Vue utilities for Tauri apps",
   "license": "MIT",
   "private": false,
@@ -56,7 +56,7 @@
     "vite": "^5.3.5"
   },
   "peerDependencies": {
-    "@tauri-apps/api": "^2.0.0-beta.15",
+    "@tauri-apps/api": "^2.0.0-rc.0",
     "@vueuse/core": "^10.11.0",
     "vue": "^3.4.34"
   },

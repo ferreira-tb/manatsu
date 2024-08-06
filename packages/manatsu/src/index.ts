@@ -7,6 +7,23 @@ export {
 } from '@manatsu/vue-plugin/src/index.ts';
 
 export {
+  computedAsync,
+  onAltKeyDown,
+  onContextMenu,
+  onCtrlKeyDown,
+  onCtrlShiftKeyDown,
+  onKeyDown,
+  onKeyStroke,
+  onShiftKeyDown,
+  useElementSize,
+  useHeight,
+  useListen,
+  useWidth,
+  useWindowHeight,
+  useWindowWidth,
+} from '@manatsu/composables/src/index.ts';
+
+export {
   type ComputedSymbol,
   EmptyComponent,
   type ErrorLog,
@@ -20,26 +37,6 @@ export {
   type WritableRefSymbol,
   type WritableShallowRefSymbol,
 } from '@manatsu/shared';
-
-export {
-  computedAsync,
-  onAltKeyDown,
-  onContextMenu,
-  onCtrlKeyDown,
-  onCtrlShiftKeyDown,
-  onKeyDown,
-  onKeyStroke,
-  onShiftKeyDown,
-  useElementSize,
-  useHeight,
-  useInvoke,
-  type UseInvokeOptions,
-  type UseInvokeReturn,
-  useListen,
-  useWidth,
-  useWindowHeight,
-  useWindowWidth,
-} from '@manatsu/composables/src/index.ts';
 
 declare global {
   interface Window {
