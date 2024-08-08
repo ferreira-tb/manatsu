@@ -10,10 +10,11 @@ export function createManatsu(options: ManatsuOptions = {}): Plugin {
   const manatsu: Plugin = {
     install(app) {
       const errorHandler = (options.errorHandler ?? defaultErrorHandler).bind(app);
-      app.config.errorHandler = (err) => handleError(err);
       setGlobalManatsu({ app, errorHandler });
 
       setDefaultVueVersion().catch(handleError);
+
+      app.config.errorHandler = (err) => handleError(err);
     },
   };
 

@@ -3,7 +3,7 @@
 [Vue](https://vuejs.org/) utilities library for [Tauri](https://beta.tauri.app/guides/) apps.
 
 ```bash
-cargo install manatsu --version ">=1.0.0-alpha"
+cargo install manatsu
 manatsu create
 ```
 

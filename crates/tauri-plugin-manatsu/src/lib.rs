@@ -4,10 +4,10 @@ mod global;
 pub mod log;
 
 pub use error::Error;
-pub use log::{Log, VersionSnapshot};
 
 use error::Result;
 use global::Manatsu;
+use log::{Log, DEFAULT_CACHE_SIZE};
 use std::sync::Mutex;
 use tauri::plugin::TauriPlugin;
 use tauri::{AppHandle, Manager, RunEvent, Runtime};
@@ -25,12 +25,12 @@ impl<R: Runtime> AppHandleExt for AppHandle<R> {
 }
 
 struct PluginState {
-  log_cache: Mutex<Vec<Log>>,
+  cache: Mutex<Vec<Log>>,
   log_cache_size: usize,
 }
 
 pub struct Builder {
-  log_cache_size: usize,
+  cache_size: usize,
 }
 
 impl Builder {
@@ -39,24 +39,22 @@ impl Builder {
   }
 
   #[must_use]
-  pub fn log_cache_size(mut self, size: usize) -> Self {
-    self.log_cache_size = size;
+  pub fn cache_size(mut self, size: usize) -> Self {
+    self.cache_size = size;
     self
   }
 
   pub fn build<R: Runtime>(self) -> TauriPlugin<R> {
     let state = PluginState {
-      log_cache: Mutex::default(),
-      log_cache_size: self.log_cache_size,
+      cache: Mutex::default(),
+      log_cache_size: self.cache_size,
     };
 
     tauri::plugin::Builder::new("manatsu")
       .js_init_script(Manatsu::script())
       .invoke_handler(tauri::generate_handler![
-        command::is_dev,
         command::save_log,
         command::set_default_vue_version,
-        command::version,
         command::version_snapshot,
       ])
       .setup(|app, _api| {
@@ -74,12 +72,14 @@ impl Builder {
 
 impl Default for Builder {
   fn default() -> Self {
-    Self {
-      log_cache_size: log::DEFAULT_CACHE_SIZE,
-    }
+    Self { cache_size: DEFAULT_CACHE_SIZE }
   }
 }
 
 pub fn init<R: Runtime>() -> TauriPlugin<R> {
   Builder::default().build()
+}
+
+pub fn with_cache_size<R: Runtime>(size: usize) -> TauriPlugin<R> {
+  Builder::new().cache_size(size).build()
 }

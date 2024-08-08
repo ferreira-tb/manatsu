@@ -1,4 +1,4 @@
-export { createVersionSnapshot, isDev, log, version } from '@manatsu/tauri-plugin/src/index.ts';
+export { createVersionSnapshot, log } from '@manatsu/tauri-plugin/src/index.ts';
 
 export {
   createManatsu,
@@ -9,7 +9,6 @@ export {
 export {
   computedAsync,
   onAltKeyDown,
-  onContextMenu,
   onCtrlKeyDown,
   onCtrlShiftKeyDown,
   onKeyDown,
@@ -17,7 +16,6 @@ export {
   onShiftKeyDown,
   useElementSize,
   useHeight,
-  useListen,
   useWidth,
   useWindowHeight,
   useWindowWidth,
@@ -25,12 +23,12 @@ export {
 
 export {
   type ComputedSymbol,
-  EmptyComponent,
   type ErrorLog,
   getCurrentApp,
   handleError,
-  injectStrict,
+  inject,
   type MaybeNullishRef,
+  provide,
   type RefSymbol,
   type ShallowRefSymbol,
   type VersionSnapshot,

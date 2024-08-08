@@ -103,7 +103,7 @@ impl Log {
 
   pub fn write_to_disk<R: Runtime>(app: &AppHandle<R>) -> Result<()> {
     let state = app.state::<PluginState>();
-    let mut cache = state.log_cache.lock().unwrap();
+    let mut cache = state.cache.lock().unwrap();
 
     if !cache.is_empty() {
       let cached_logs = mem::take(&mut *cache);
@@ -165,7 +165,7 @@ impl Log {
     tracing::error!(name = %self.name, message = %self.message);
 
     let state = app.state::<PluginState>();
-    let mut cache = state.log_cache.lock().unwrap();
+    let mut cache = state.cache.lock().unwrap();
     cache.push(self);
 
     if cache.len() >= state.log_cache_size {

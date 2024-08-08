@@ -5,6 +5,7 @@ use serde_json::json;
 #[serde(rename_all = "camelCase")]
 pub(crate) struct Manatsu {
   dev: bool,
+  version: String,
 }
 
 impl Manatsu {
@@ -16,6 +17,9 @@ impl Manatsu {
 
 impl Default for Manatsu {
   fn default() -> Self {
-    Self { dev: tauri::is_dev() }
+    Self {
+      dev: tauri::is_dev(),
+      version: crate::VERSION.to_owned(),
+    }
   }
 }

@@ -1,10 +1,10 @@
 {
   "name": "@manatsu/vue-plugin",
   "description": "Vue plugin for Manatsu",
-  "version": "1.0.0-alpha.4",
+  "version": "1.0.0",
   "license": "MIT",
   "private": false,
-  "packageManager": "pnpm@9.6.0",
+  "packageManager": "pnpm@9.7.0",
   "homepage": "https://github.com/ferreira-tb/manatsu",
   "repository": {
     "type": "git",
@@ -44,15 +44,15 @@
   "dependencies": {
     "@manatsu/shared": "workspace:*",
     "@manatsu/tauri-plugin": "workspace:*",
-    "@tb-dev/utils": "^2.0.3"
+    "@tb-dev/utils": "^2.1.0"
   },
   "devDependencies": {
-    "vite": "^5.3.5"
+    "vite": "^5.4.0"
   },
   "peerDependencies": {
-    "@tauri-apps/api": "^2.0.0-beta.15",
-    "@vueuse/core": "^10.11.0",
-    "vue": "^3.4.34"
+    "@tauri-apps/api": "^2.0.0-rc.0",
+    "@vueuse/core": "^10.11.1",
+    "vue": "^3.4.37"
   },
   "engines": {
     "node": ">=20"

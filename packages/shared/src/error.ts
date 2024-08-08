@@ -1,3 +1,4 @@
+import { getGlobalManatsu } from './global';
 import type { Nullish } from '@tb-dev/utils';
 
 export interface ErrorLog {
@@ -15,4 +16,13 @@ export interface VersionSnapshot {
   readonly tauri?: Nullish<string>;
   readonly vue?: Nullish<string>;
   readonly webview?: Nullish<string>;
+}
+
+export function handleError(error: unknown) {
+  try {
+    const manatsu = getGlobalManatsu();
+    manatsu.errorHandler?.call(manatsu.app, error);
+  } catch (err) {
+    console.warn(err);
+  }
 }

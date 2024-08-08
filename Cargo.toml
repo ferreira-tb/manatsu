@@ -12,7 +12,7 @@ repository = "https://github.com/ferreira-tb/manatsu"
 authors = ["Andrew Ferreira <andrew.shien2@gmail.com>"]
 license = "MIT"
 edition = "2021"
-rust-version = "1.79"
+rust-version = "1.80"
 readme = "README.md"
 categories = ["web-programming"]
 

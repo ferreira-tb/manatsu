@@ -295,20 +295,6 @@
       "type": "string",
       "oneOf": [
         {
-          "description": "allow-is-dev -> Enables the is_dev command without any pre-configured scope.",
-          "type": "string",
-          "enum": [
-            "allow-is-dev"
-          ]
-        },
-        {
-          "description": "deny-is-dev -> Denies the is_dev command without any pre-configured scope.",
-          "type": "string",
-          "enum": [
-            "deny-is-dev"
-          ]
-        },
-        {
           "description": "allow-save-log -> Enables the save_log command without any pre-configured scope.",
           "type": "string",
           "enum": [
@@ -334,20 +320,6 @@
           "type": "string",
           "enum": [
             "deny-set-default-vue-version"
-          ]
-        },
-        {
-          "description": "allow-version -> Enables the version command without any pre-configured scope.",
-          "type": "string",
-          "enum": [
-            "allow-version"
-          ]
-        },
-        {
-          "description": "deny-version -> Denies the version command without any pre-configured scope.",
-          "type": "string",
-          "enum": [
-            "deny-version"
           ]
         },
         {
