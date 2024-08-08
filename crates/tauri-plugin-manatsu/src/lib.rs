@@ -1,13 +1,13 @@
 mod command;
 mod error;
 mod global;
-pub mod log;
+mod log;
 
 pub use error::Error;
 
 use error::Result;
 use global::Manatsu;
-use log::{Log, DEFAULT_CACHE_SIZE};
+pub use log::{date, Log, VersionSnapshot, DEFAULT_CACHE_SIZE};
 use std::sync::Mutex;
 use tauri::plugin::TauriPlugin;
 use tauri::{AppHandle, Manager, RunEvent, Runtime};
