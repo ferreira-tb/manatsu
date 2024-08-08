@@ -78,7 +78,7 @@ async fn create_github_release(github_token: &str) -> Result<()> {
     "tag_name": format!("v{}", package.version),
     "name": format!("v{}", package.version),
     "draft": false,
-    "prerelease": true,
+    "prerelease": false,
     "generate_release_notes": true
   });
 
