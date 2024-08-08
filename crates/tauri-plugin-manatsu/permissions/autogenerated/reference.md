@@ -2,10 +2,8 @@
 
 Default permissions for the Manatsu plugin
 
-- `allow-is-dev`
 - `allow-save-log`
 - `allow-set-default-vue-version`
-- `allow-version`
 - `allow-version-snapshot`
 
 ### Permission Table 
