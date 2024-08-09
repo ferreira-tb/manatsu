@@ -1,10 +1,10 @@
-import type { InjectionKey } from 'vue';
 import { getCurrentApp } from './global';
+import { type InjectionKey, inject as originalInject } from 'vue';
 
 /** Like `inject`, but throws an error if the value was not provided. */
 export function inject<T>(key: InjectionKey<T> | string): T {
   const app = getCurrentApp();
-  const value = app.runWithContext(() => inject(key));
+  const value = app.runWithContext(() => originalInject(key));
 
   if (value === undefined) {
     throw new Error('injection failed: value was not provided');
